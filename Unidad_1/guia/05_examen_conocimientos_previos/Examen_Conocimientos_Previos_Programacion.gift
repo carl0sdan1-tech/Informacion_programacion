@@ -1,0 +1,47 @@
+// Banco de preguntas GIFT — Examen de conocimientos previos
+// Asignatura: Programación y Base de Datos — Carrera de Ingeniería Ambiental — UNL
+// Docente: Carlos Guillermo Chuncho Morocho
+// Periodo académico: Septiembre 2026 — Marzo 2027
+// Instrucciones de importación: Aula Virtual (Moodle) > Banco de preguntas > Importar > formato GIFT
+
+$CATEGORY: $course$/Programacion_2026/Conocimientos_Previos
+
+::CP01_Aritmetica::¿Cuál es el resultado de la siguiente operación? 8 + 2 × (5 − 3)² ÷ 4 {=10#Se resuelve primero el paréntesis (5−3)=2, luego la potencia 2²=4, después 2×4÷4=2 y finalmente 8+2=10. ~20 ~12 ~100}
+
+::CP02_Secuencia::Observe la secuencia numérica: 3, 6, 11, 18, 27, ¿qué número sigue? {=38#Las diferencias entre términos consecutivos son 3, 5, 7, 9, por lo que la siguiente diferencia es 11: 27+11=38. ~36 ~37 ~40}
+
+::CP03_LogicaCondicional::Se sabe que "si un sensor está descalibrado, entonces sus lecturas son incorrectas". Un sensor muestra lecturas incorrectas. ¿Qué se puede concluir válidamente? {=No se puede concluir con certeza que el sensor esté descalibrado, porque las lecturas incorrectas pueden tener otras causas#Concluir que el sensor está descalibrado a partir de lecturas incorrectas es la falacia de afirmar el consecuente; existen otras causas posibles. ~El sensor está descalibrado ~El sensor funciona correctamente ~Todos los sensores del mismo modelo están descalibrados}
+
+::CP04_OrdenPasos::Para calcular el promedio de tres temperaturas registradas en campo, ¿cuál es el orden correcto de pasos? {=Registrar los tres valores; sumar los valores; dividir la suma entre 3; reportar el resultado#El promedio requiere primero tener los datos, luego sumarlos, dividir entre la cantidad de datos y finalmente reportar. ~Sumar los valores; registrar los tres valores; dividir la suma entre 3; reportar el resultado ~Registrar los tres valores; dividir la suma entre 3; sumar los valores; reportar el resultado ~Registrar los tres valores; sumar los valores; reportar el resultado; dividir la suma entre 3}
+
+::CP05_LogicaBooleana::Si A es falso y B es verdadero, ¿cuál de las siguientes expresiones lógicas es verdadera? {=(NO A) Y B#NO A es verdadero, y verdadero Y B(verdadero) da como resultado verdadero. ~(A Y B) O (NO B) ~A O (NO B) ~(NO A) Y (NO B)}
+
+::CP06_ProblemaPasos::Una base tiene 500 registros. Al eliminar duplicados quedan 470. Luego se descarta el 10% de esos 470 por estar fuera de rango. ¿Cuántos registros finales quedan? {=423#470 menos el 10% de 470 (47) es igual a 423. ~450 ~47 ~430}
+
+::CP07_DefinicionAlgoritmo::¿Cuál de las siguientes definiciones describe mejor un algoritmo? {=Una secuencia finita y ordenada de pasos que resuelve un problema o realiza una tarea#Esta es la definición general de algoritmo, independiente del lenguaje en que se implemente. ~Un programa ya traducido a lenguaje de máquina ~Un conjunto de datos organizados en tablas ~Un diagrama que solo representa decisiones}
+
+::CP08_Diagramas::En un diagrama de flujo, ¿qué representa un símbolo con forma de rombo (diamante)? {=Una decisión o pregunta con dos posibles caminos#El rombo es el símbolo estándar para decisiones o bifurcaciones condicionales. ~El inicio o fin del proceso ~Una entrada o salida de datos ~Un proceso o cálculo}
+
+::CP09_DatosInformacion::¿Cuál es la diferencia principal entre "dato" e "información"? {=El dato es un valor sin procesar; la información es el resultado de procesar e interpretar datos con un propósito#Un dato aislado no tiene interpretación; la información surge al procesar y contextualizar los datos. ~No existe diferencia, son sinónimos ~El dato siempre es numérico y la información siempre es texto ~La información se almacena en el computador y el dato no}
+
+::CP10_Repeticion::¿Qué caracteriza a un proceso repetitivo (bucle) dentro de un algoritmo? {=Un bloque de pasos que se ejecuta varias veces mientras se cumpla una condición#La repetición controlada por una condición es la característica esencial de un bucle. ~Un paso que se ejecuta una sola vez al inicio del algoritmo ~Una decisión que solo tiene dos posibles resultados ~Un paso que detiene permanentemente el algoritmo}
+
+::CP11_Variable::En el contexto de un algoritmo o proceso, ¿qué es una variable? {=Un espacio que almacena un valor y cuyo contenido puede cambiar durante el proceso#Una variable representa un valor modificable a lo largo de la ejecución del proceso. ~Un resultado final que nunca cambia una vez calculado ~Un símbolo que solo se usa para representar decisiones ~Un archivo que contiene todo el programa}
+
+::CP12_HardwareSoftware::¿Cuál de las siguientes opciones es un ejemplo de software? {=Una hoja de cálculo como Excel#El software son programas e instrucciones; el hardware son los componentes físicos. ~El disco duro ~El teclado ~La memoria RAM}
+
+::CP13_HojaCalculo::En una hoja de cálculo, ¿qué identifica de manera única a un dato dentro de la tabla? {=La combinación de la columna y la fila (por ejemplo, B3)#Cada celda se identifica por la intersección entre su columna y su fila. ~Solo el número de la fila ~Solo la letra de la columna ~El nombre del archivo donde se guarda}
+
+::CP14_ExtensionArchivo::¿Cuál de las siguientes extensiones corresponde a un archivo de datos tabulares en texto plano, separados por comas? {=.csv#CSV significa "comma-separated values", valores separados por comas en texto plano. ~.docx ~.exe ~.png}
+
+::CP15_BaseDatos::¿Qué describe mejor una base de datos? {=Un conjunto organizado de datos relacionados, almacenados y estructurados para su consulta y actualización#Esta es la definición general de una base de datos, independiente del motor que la administre. ~Un archivo de texto sin ninguna estructura interna ~Una copia de seguridad de los programas instalados ~Un programa que solo permite ver imágenes}
+
+::CP16_UnidadesAlmacenamiento::Ordenadas de menor a mayor capacidad de almacenamiento digital, ¿cuál es la secuencia correcta? {=KB, MB, GB, TB#La escala de almacenamiento aumenta de kilobyte a megabyte, gigabyte y terabyte. ~MB, KB, TB, GB ~GB, MB, KB, TB ~KB, GB, MB, TB}
+
+::CP17_Binario::El número binario 1011 equivale, en el sistema decimal, a: {=11#1011 en binario es 1×8 + 0×4 + 1×2 + 1×1 = 11. ~13 ~3 ~1011}
+
+::CP18_Porcentaje::En una muestra de 240 registros de precipitación, el 15% presenta valores atípicos (outliers). ¿Cuántos registros son atípicos? {=36#El 15% de 240 es 36. ~15 ~24 ~40}
+
+::CP19_Promedio::Se midieron las siguientes temperaturas en °C durante cuatro días: 18, 22, 19, 21. ¿Cuál es el promedio? {=20#La suma de los valores es 80, dividida entre 4 días da 20. ~19.5 ~20.5 ~21}
+
+::CP20_ConversionUnidades::Una estación registra 25 mm de lluvia en un día. Si 1 mm de lluvia equivale a 1 litro por metro cuadrado (L/m²), ¿cuántos litros de agua cayeron sobre una parcela de 4 m²? {=100#25 L/m² multiplicados por 4 m² son 100 litros. ~29 ~6.25 ~250}

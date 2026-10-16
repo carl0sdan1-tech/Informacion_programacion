@@ -1,0 +1,939 @@
+\documentclass[aspectratio=169,11pt]{beamer}
+
+% ============================================================
+% Programación y Base de Datos - Unidad 1: Introducción a la programación
+% Presentación unificada, autosuficiente y compatible con pdfLaTeX/Prism.
+% ============================================================
+
+% ---------------- Paquetes ----------------
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage[spanish]{babel}
+\decimalpoint
+\usepackage{lmodern}
+\usepackage{amsmath,amssymb}
+\usepackage{booktabs}
+\usepackage{array}
+\usepackage{tabularx}
+\usepackage{multirow}
+\usepackage{graphicx}
+\usepackage{xcolor}
+\usepackage{colortbl}
+\usepackage{ragged2e}
+\usepackage{enumitem}
+\usepackage{tikz}
+\usetikzlibrary{arrows.meta,positioning,shapes.geometric,calc,fit,backgrounds}
+\usepackage{pgfplots}
+\pgfplotsset{compat=1.18}
+\usepackage[most]{tcolorbox}
+\usepackage{listings}
+
+% ---------------- Paleta de color: Programación (morado) ----------------
+\definecolor{morado}{RGB}{74,20,99}
+\definecolor{moradoOsc}{RGB}{48,11,68}
+\definecolor{moradoMedio}{RGB}{123,63,157}
+\definecolor{moradoClaro}{RGB}{224,208,235}
+\definecolor{tealProfundo}{RGB}{0,90,99}
+\definecolor{tealMedio}{RGB}{40,130,140}
+\definecolor{tealClaro}{RGB}{204,232,232}
+\definecolor{acento}{RGB}{198,110,38}
+\definecolor{acentoClaro}{RGB}{247,226,201}
+\definecolor{alerta}{RGB}{165,40,40}
+\definecolor{alertaClara}{RGB}{242,213,208}
+\definecolor{grafito}{RGB}{51,51,51}
+\definecolor{grisMedio}{RGB}{120,128,126}
+\definecolor{grisClaro}{RGB}{244,246,245}
+\definecolor{blancoSuave}{RGB}{253,254,253}
+
+% ---------------- Estilo de código (listings) ----------------
+\lstdefinestyle{python}{
+  language=Python,
+  basicstyle=\ttfamily\scriptsize\color{grafito},
+  keywordstyle=\color{morado}\bfseries,
+  commentstyle=\color{grisMedio}\itshape,
+  stringstyle=\color{tealProfundo},
+  numbers=none,
+  showstringspaces=false,
+  breaklines=true,
+  frame=single,
+  rulecolor=\color{moradoMedio},
+  backgroundcolor=\color{grisClaro},
+  framesep=4pt,
+  xleftmargin=4pt,
+  xrightmargin=4pt
+}
+\lstset{style=python}
+
+% ---------------- Tema base ----------------
+\usetheme{default}
+\setbeamertemplate{navigation symbols}{}
+\setbeamercolor{background canvas}{bg=blancoSuave}
+\setbeamercolor{normal text}{fg=grafito,bg=blancoSuave}
+\setbeamercolor{structure}{fg=morado}
+\setbeamercolor{title}{fg=white,bg=morado}
+\setbeamercolor{frametitle}{fg=white,bg=morado}
+\setbeamercolor{footline}{fg=grafito,bg=grisClaro}
+\setbeamercolor{block title}{fg=white,bg=morado}
+\setbeamercolor{block body}{fg=grafito,bg=moradoClaro!45}
+\setbeamercolor{block title alerted}{fg=white,bg=acento}
+\setbeamercolor{block body alerted}{fg=grafito,bg=acentoClaro!70}
+\setbeamercolor{block title example}{fg=white,bg=tealProfundo}
+\setbeamercolor{block body example}{fg=grafito,bg=tealClaro!55}
+\setbeamercolor{alerted text}{fg=acento}
+\setbeamercolor{itemize item}{fg=morado}
+\setbeamercolor{itemize subitem}{fg=tealMedio}
+\setbeamercolor{enumerate item}{fg=morado}
+
+\setbeamerfont{title}{size=\LARGE,series=\bfseries}
+\setbeamerfont{subtitle}{size=\normalsize}
+\setbeamerfont{frametitle}{size=\large,series=\bfseries}
+\setbeamerfont{framesubtitle}{size=\small,series=\mdseries}
+\setbeamerfont{block title}{size=\normalsize,series=\bfseries}
+\setbeamerfont{footline}{size=\tiny}
+
+\setbeamertemplate{itemize item}{\color{morado}$\blacktriangleright$}
+\setbeamertemplate{itemize subitem}{\color{tealMedio}$\circ$}
+\setbeamertemplate{enumerate item}{\color{morado}\bfseries\insertenumlabel.}
+\setlength{\leftmargini}{1.05em}
+\setlength{\leftmarginii}{1.05em}
+
+% ---------------- Título de marco y pie de pagina ----------------
+\setbeamertemplate{frametitle}{%
+  \vspace{-0.05cm}%
+  \begin{beamercolorbox}[wd=\paperwidth,ht=0.86cm,dp=0.24cm,leftskip=0.5cm,rightskip=0.6cm]{frametitle}%
+    \usebeamerfont{frametitle}\insertframetitle%
+    \ifx\insertframesubtitle\empty\else\\[-0.05cm]{\usebeamerfont{framesubtitle}\color{acentoClaro}\insertframesubtitle}\fi%
+  \end{beamercolorbox}%
+  \vspace{-0.30cm}{\color{acento}\rule{\paperwidth}{2.4pt}}\vspace{0.10cm}%
+}
+\setbeamertemplate{footline}{%
+  \begin{beamercolorbox}[wd=\paperwidth,ht=0.42cm,dp=0.16cm,leftskip=0.4cm,rightskip=0.4cm]{footline}%
+    \usebeamerfont{footline}\color{grisMedio}Programación y Base de Datos -- Unidad 1%
+    \hfill\color{moradoMedio}\insertsectionhead%
+    \hfill\color{grafito}\insertframenumber\,/\,\inserttotalframenumber%
+  \end{beamercolorbox}%
+}
+
+% ---------------- Comandos y entornos auxiliares ----------------
+\newcolumntype{Y}{>{\RaggedRight\arraybackslash}X}
+\newcolumntype{C}[1]{>{\centering\arraybackslash}p{#1}}
+\newcolumntype{L}[1]{>{\RaggedRight\arraybackslash}p{#1}}
+
+\newtcolorbox{keybox}[1][]{%
+  colback=moradoClaro!40,colframe=morado,arc=2pt,boxrule=0.8pt,
+  top=4pt,bottom=4pt,left=6pt,right=6pt,fonttitle=\bfseries,#1}
+\newtcolorbox{techbox}[1][]{%
+  colback=tealClaro!45,colframe=tealProfundo,arc=2pt,boxrule=0.8pt,
+  top=4pt,bottom=4pt,left=6pt,right=6pt,fonttitle=\bfseries,#1}
+\newtcolorbox{warnbox}[1][]{%
+  colback=acentoClaro!70,colframe=acento,arc=2pt,boxrule=0.8pt,
+  top=4pt,bottom=4pt,left=6pt,right=6pt,fonttitle=\bfseries,#1}
+\newtcolorbox{envbox}[1][]{%
+  colback=grisClaro,colframe=moradoMedio,arc=2pt,boxrule=0.8pt,
+  top=4pt,bottom=4pt,left=6pt,right=6pt,title=Contexto ambiental,fonttitle=\bfseries,#1}
+\newtcolorbox{checkbox}[1][]{%
+  colback=alertaClara!55,colframe=alerta,arc=2pt,boxrule=0.8pt,
+  top=4pt,bottom=4pt,left=6pt,right=6pt,title=Comprobación rápida,fonttitle=\bfseries,#1}
+
+% Divisor de bloque temático (marca además la sección para el pie de pagina)
+\newcommand{\bloque}[3]{%
+\section{#1}
+\begin{frame}[plain,noframenumbering]
+  \begin{tikzpicture}[remember picture,overlay]
+    \fill[morado] (current page.south west) rectangle (current page.north east);
+    \fill[moradoMedio] (current page.south west) rectangle ([xshift=0.55cm]current page.north west);
+    \fill[acento,opacity=.30] ([xshift=-0.4cm,yshift=-0.5cm]current page.north east) circle (3.1cm);
+    \node[anchor=west,align=left,text width=12.6cm] at ([xshift=1.1cm]current page.west) {%
+      \begin{minipage}[c]{12.6cm}
+        \raggedright
+        {\color{white}\Large\bfseries #1}\\[3pt]
+        {\color{white}\LARGE\bfseries #2}\\[6pt]
+        {\color{moradoClaro}\normalsize #3}
+      \end{minipage}%
+    };
+  \end{tikzpicture}
+\end{frame}}
+
+% ---------------- Datos del documento ----------------
+\title[Unidad 1 -- Programación y BD]{Programación y Base de Datos}
+\subtitle{Unidad 1. Introducción a la programación y fundamentos para la formulación de algoritmos}
+\author[Chuncho Morocho, C. G.]{Carlos Guillermo Chuncho Morocho}
+\institute[Ingeniería Ambiental]{Carrera de Ingeniería Ambiental \\ Universidad Nacional de Loja}
+\date{}
+
+\setbeamertemplate{title page}{
+  \begin{center}
+  \vspace{0.15cm}
+  {\includegraphics[width=0.16\textwidth]{recursos/logo_carrera.jpg}\par}
+  \vspace{0.35cm}
+  {\usebeamerfont{title}\color{morado}\inserttitle\par}
+  \vspace{0.15cm}
+  {\large\color{morado}\textbf{\insertsubtitle}\par}
+  \vspace{0.55cm}
+  {\usebeamerfont{author}\insertauthor\par}
+  \vspace{0.15cm}
+  {\small\insertinstitute\par}
+  \vspace{0.45cm}
+  {\color{acento}\rule{0.55\textwidth}{1pt}\par}
+  \end{center}
+}
+
+\begin{document}
+\shorthandoff{"}
+
+% ============================================================
+% Portada
+% ============================================================
+\begin{frame}[plain,noframenumbering]
+  \titlepage
+\end{frame}
+
+% ============================================================
+% Presentación del curso: profesor y panorama de las 3 unidades
+% ============================================================
+\begin{frame}{Presentación}
+\framesubtitle{Bienvenida al curso — Quién los acompaña y qué construiremos juntos este semestre}
+
+\scriptsize
+\begin{columns}[T,onlytextwidth]
+
+\column{0.34\textwidth}
+\begin{block}{Formación académica}
+\begin{itemize}[itemsep=0.5pt,topsep=1pt]
+  \item Ing. Agrónomo (UNL, 2004).
+  \item 2 maestrías previas: Cs. de la Agricultura (PUC Chile, 2017) y Agric. Ecológica (CATIE, 2011).
+  \item Dipl. Sup. en Gestión de Proyectos (FLACSO, 2005).
+  \item \textbf{Maestría en Estadística}, m. Ciencia de Datos e IA.
+\end{itemize}
+\end{block}
+
+\column{0.32\textwidth}
+\begin{envbox}[title=Herramientas de trabajo]
+Uso profesional habitual de \textbf{Visual Studio Code}, \textbf{Python}, \textbf{SQL} (PostgreSQL/PostGIS), \textbf{Git} y \textbf{Jupyter Notebook} en el análisis de datos ambientales y modelación de incendios forestales.
+\end{envbox}
+
+\column{0.31\textwidth}
+\begin{techbox}[title=Investigación actual]
+Modelación probabilística y espacio-temporal de incendios forestales en Loja
+(jerárquica, Bernoulli, Matérn/SPDE). Publicaciones en \textit{Fire Ecology}
+(2026), \textit{Axioma} (2025) y \textit{Rev. Est. Andaluces} (2024).
+\end{techbox}
+
+\end{columns}
+
+\vspace{0.04cm}
+
+\begin{keybox}[top=2pt,bottom=2pt]
+\textbf{Este período dicto además:} Matemática 2, Estadística Descriptiva,
+y Formulación del Proyecto de Titulación.
+\end{keybox}
+
+\vspace{0.03cm}
+
+\centering
+\scriptsize
+Carrera de Ingeniería Ambiental, Bloque 86
+\quad$\vert$\quad
+\texttt{carlos.chuncho@unl.edu.ec}
+
+\end{frame}
+
+
+
+
+\begin{frame}{Unidad 1 -- Introducción a la programación}
+\framesubtitle{5 semanas \quad\textbullet\quad 25,0 horas}
+\begin{enumerate}
+  \item Introducción a la programación: entorno de trabajo, sintaxis y errores.
+  \item Fundamentos de algoritmos: problema, algoritmo y programa.
+  \item Herramientas para el diseño de algoritmos: variables, expresiones y sentencias.
+  \item Aplicación de algoritmos a problemas ambientales sencillos.
+  \item Ingreso de datos y visualización de resultados.
+\end{enumerate}
+\vspace{0.1cm}
+\begin{keybox}[top=2pt,bottom=2pt]
+\footnotesize\textbf{Resultado de aprendizaje:} conoce los elementos y estructuras básicas para el manejo de un lenguaje de programación, con capacidad de identificación y resolución de problemas sencillos en el contexto ambiental.
+\end{keybox}
+\end{frame}
+
+\begin{frame}{Unidad 2 -- Condicionales e iteraciones. Funciones. Cadenas}
+\framesubtitle{6 semanas \quad\textbullet\quad 30,0 horas}
+\begin{enumerate}
+  \item Condicionales: \texttt{if}, \texttt{elif}, \texttt{else}.
+  \item Funciones: definición, parámetros y valores de retorno.
+  \item Iteraciones: \texttt{for} y \texttt{while}.
+  \item Cadenas y operaciones con cadenas.
+  \item Listas y diccionarios.
+  \item Tuplas.
+\end{enumerate}
+\vspace{0.1cm}
+\begin{keybox}[top=2pt,bottom=2pt]
+\footnotesize\textbf{Resultado de aprendizaje:} desarrolla y aplica algoritmos para el análisis de datos ambientales, con habilidades de análisis lógico y síntesis.
+\end{keybox}
+\end{frame}
+
+\begin{frame}{Unidad 3 -- Manejo de archivos, datos y visualización}
+\small
+\framesubtitle{5 semanas \quad\textbullet\quad 25,0 horas}
+\begin{enumerate}
+  \item Manejo de archivos: rutas, formatos \texttt{.txt} y \texttt{.csv}.
+  \item Bases de datos y SQL.
+  \item Transformación y agregación de dataframes (pandas).
+  \item Porciones indexadas de dataframes.
+  \item Creación y visualización de dataframes (matplotlib).
+\end{enumerate}
+\vspace{0.1cm}
+\begin{keybox}[top=2pt,bottom=2pt]
+\footnotesize\textbf{Resultado de aprendizaje:} emplea herramientas básicas para el almacenamiento, manipulación y presentación de datos en proyectos sencillos.
+\end{keybox}
+\end{frame}
+
+% ============================================================
+% Hoja de ruta: proyecto integrador, equipos, cronograma y evaluación
+% ============================================================
+\bloque{Hoja de ruta}{La hoja de ruta del curso}{Proyecto integrador, equipos de trabajo, cronograma y evaluación}
+
+\begin{frame}{El proyecto integrador: un caso ambiental real}
+\small
+\begin{block}{De qué se trata}
+Durante todo el semestre cada equipo trabaja con el mismo conjunto real de datos ambientales georreferenciados del cantón Loja (periodo 2019--2024) del proyecto \textbf{FIRELAB-Loja}: relieve, cobertura vegetal, clima e incendios forestales. En Programación y Base de Datos, cada bloque temático se resuelve construyendo programas cada vez más completos -de un primer script que lee datos a un flujo que los transforma, consulta y visualiza.
+\end{block}
+\vspace{0.15cm}
+\begin{columns}[T,onlytextwidth]
+\column{0.48\textwidth}
+\begin{envbox}
+25 estudiantes del curso se organizan en \textbf{6 equipos de 4 integrantes} (uno de 5), cada uno responsable de un bloque temático del dataset ambiental.
+\end{envbox}
+\column{0.48\textwidth}
+\begin{keybox}
+El proyecto tiene \textbf{3 partes, una por unidad} (formulación $\to$ metodología $\to$ resultados finales), y dentro de cada unidad se evalúa en las mismas \textbf{4 fases}: formulación, avance, producto técnico y defensa individual.
+\end{keybox}
+\end{columns}
+\end{frame}
+
+\begin{frame}{Software y herramientas que necesitaremos}
+\small
+\begin{block}{Entorno de trabajo del curso}
+Todo el trabajo práctico se realiza en \textbf{Visual Studio Code (VS Code)} con el intérprete de \textbf{Python}, siguiendo el sílabo de la asignatura.
+\end{block}
+\vspace{0.1cm}
+\begin{itemize}[itemsep=1pt]
+  \item \textbf{Visual Studio Code}: editor principal del curso.
+  \item \textbf{Python} (versión reciente): lenguaje de programación del curso.
+  \item Extensiones de VS Code para \textbf{Python} y \textbf{Jupyter Notebook}.
+  \item Bibliotecas de datos: \texttt{pandas}, \texttt{matplotlib}, \texttt{sqlite3}.
+\end{itemize}
+\vspace{0.1cm}
+\begin{warnbox}[top=2pt,bottom=2pt]
+\footnotesize\textbf{Por ahora:} instalen Visual Studio Code y sus dependencias (Python, extensiones, Git y GitHub) antes de la próxima sesión práctica, siguiendo el documento \textbf{"Guía de instalación y configuración del entorno"} entregado aparte.
+\end{warnbox}
+\end{frame}
+
+\begin{frame}{Proyecto integrador: los 6 equipos y su reto}
+\tiny
+\renewcommand{\arraystretch}{1.0}
+\begin{tabularx}{\textwidth}{C{1.6cm}L{2.9cm}Y}
+\toprule
+\textbf{Equipos} & \textbf{Bloque temático (variables)} & \textbf{Pregunta guía en clave de programación} \\
+\midrule
+1 y 2 & Relieve y accesibilidad: elevación, pendiente, orientación, distancia a asentamientos y vías. & ¿Qué algoritmo clasifica automáticamente el grado de pendiente de cada celda del relieve? \\
+3 & Cobertura vegetal y uso del suelo: bosque nativo, páramo, área agropecuaria, plantación forestal, índices espectrales. & ¿Qué programa calcula la proporción de cobertura vegetal por categoría a partir de los datos crudos? \\
+4 y 5 & Clima y condiciones atmosféricas: precipitación acumulada, días secos y húmedos, velocidad del viento. & ¿Qué algoritmo cuenta los días secos y húmedos de un periodo a partir de los registros de precipitación? \\
+6 & Incendios forestales y riesgo: evidencia satelital de fuego y ocurrencia por celda, mes y año. & ¿Qué programa identifica y cuenta los eventos de incendio por celda, mes y año? \\
+\bottomrule
+\end{tabularx}
+\vspace{0.1cm}
+\begin{keybox}[top=2pt,bottom=2pt]
+Al ser más equipos que bloques temáticos, en dos de los cuatro bloques dos equipos comparten el mismo bloque (mismas variables y mismo reto), pero cada uno trabaja un sitio o subconjunto distinto dentro del cantón Loja y al final comparan el comportamiento de sus programas sobre esos datos distintos; así el curso se vuelve un solo proyecto de investigación ambiental compartido, visto desde distintos ángulos.
+\end{keybox}
+\end{frame}
+
+\begin{frame}{Proyecto integrador -- Parte 1: formulación de la investigación}
+\footnotesize
+\centering
+\renewcommand{\arraystretch}{0.95}
+\begin{tabularx}{\textwidth}{L{2.2cm}C{1.6cm}Y}
+\toprule
+\textbf{Fase} & \textbf{Peso} & \textbf{Qué se evalúa} \\
+\midrule
+1. Formulación & 3\,\% & Delimitación inicial del problema ambiental y del bloque de variables asignado al equipo. \\
+2. Avance & 4\,\% & Exploración preliminar de los datos que sustente la pregunta de investigación. \\
+3. Producto técnico & 10\,\% & Documento formal en \LaTeX{} con normas APA: planteamiento del problema, pregunta de investigación, hipótesis y objetivos (general y específicos). \\
+4. Defensa individual & 8\,\% & Sustentación oral individual del planteamiento: problema, pregunta, hipótesis y objetivos. \\
+\midrule
+\textbf{Total por unidad} & \textbf{25\,\%} & \textbf{2,50 puntos sobre 10,00 en cada unidad.} \\
+\bottomrule
+\end{tabularx}
+\vspace{0.02cm}
+\begin{warnbox}[top=2pt,bottom=2pt]
+\footnotesize Este producto técnico es la \textbf{Parte 1 del proyecto integrador}: la formulación completa que las unidades 2 y 3 retomarán y desarrollarán hasta el informe final.
+\end{warnbox}
+\end{frame}
+
+\begin{frame}{Cronograma -- Unidad 1}
+\scriptsize
+\renewcommand{\arraystretch}{1.1}
+\begin{tabularx}{\textwidth}{C{1.6cm}L{2.6cm}Y}
+\toprule
+\textbf{Semana} & \textbf{Fechas (mar/mié)} & \textbf{Contenido y proyecto integrador} \\
+\midrule
+1 & 29-sep / 30-sep & Bienvenida, hoja de ruta y formación de los 6 equipos. Entrega del dataset FIRELAB-Loja. Introducción a la programación. \\
+2 & 06-oct / 07-oct & Fundamentos de algoritmos. \textbf{Fase 1 -- Formulación (3\,\%)}: entrega 07-oct. \\
+3 & 13-oct / 14-oct & Herramientas para el diseño de algoritmos. \textbf{Fase 2 -- Avance (4\,\%)}: entrega 14-oct. \\
+4 & 20-oct / 21-oct & Aplicación de algoritmos. \textbf{Fase 3 -- Producto técnico (10\,\%)}: entrega 21-oct. \\
+5 & 27-oct / 28-oct & Ingreso de datos y visualización. Síntesis. \textbf{Fase 4 -- Defensa individual (8\,\%)} y \textbf{examen de Unidad 1}. \\
+\bottomrule
+\end{tabularx}
+\vspace{0.15cm}
+\begin{techbox}
+Pase de calificaciones de la Unidad 1: semana del 03 al 07 de noviembre de 2026.
+\end{techbox}
+\tiny\textit{Fechas estimadas a partir del patrón del calendario institucional 2026--2027 (mismo periodo e inicio que Matemática 2 y Estadística Descriptiva); confirmar en el SIAAF/EVA -esta asignatura no cuenta aún con reporte oficial de fechas.}
+\end{frame}
+
+\begin{frame}{Cronograma -- Unidad 2}
+\scriptsize
+\renewcommand{\arraystretch}{1.15}
+\begin{tabularx}{\textwidth}{C{1.6cm}L{2.6cm}Y}
+\toprule
+\textbf{Semana} & \textbf{Fechas aproximadas} & \textbf{Contenido y proyecto integrador} \\
+\midrule
+1 & 10-nov / 11-nov & Retroalimentación del examen de Unidad 1. Condicionales. \\
+2 & 17-nov / 18-nov & Funciones. \textbf{Fase 1 -- Formulación (3\,\%)}. \\
+3 & 24-nov / 25-nov & Iteraciones. \textbf{Fase 2 -- Avance (4\,\%)}. \\
+4 & 01-dic / 02-dic & Cadenas y operaciones con cadenas. \textbf{Fase 3 -- Producto técnico (10\,\%)}. \\
+5 & 08-dic / 09-dic & Listas y diccionarios. \textbf{Fase 4 -- Defensa individual (8\,\%)}. \\
+\multicolumn{3}{l}{\textit{Receso académico estimado: 21-dic-2026 al 04-ene-2027 (sin clases).}} \\
+6 & 05-ene / 06-ene & Tuplas. Síntesis. \textbf{Examen de Unidad 2}. \\
+\bottomrule
+\end{tabularx}
+\vspace{0.1cm}
+\begin{techbox}
+Pase de calificaciones de la Unidad 2: semana del 11 al 15 de enero de 2027.
+\end{techbox}
+\end{frame}
+
+\begin{frame}{Cronograma -- Unidad 3}
+\scriptsize
+\renewcommand{\arraystretch}{1.15}
+\begin{tabularx}{\textwidth}{C{1.6cm}L{2.6cm}Y}
+\toprule
+\textbf{Semana} & \textbf{Fechas aproximadas} & \textbf{Contenido y proyecto integrador} \\
+\midrule
+1 & 12-ene / 13-ene & Retroalimentación del examen de Unidad 2. Manejo de archivos. \textbf{Fase 1 -- Formulación (3\,\%)}. \\
+2 & 19-ene / 20-ene & Bases de datos y SQL. \textbf{Fase 2 -- Avance (4\,\%)}. \\
+3 & 26-ene / 27-ene & Transformación y agregación de dataframes. \textbf{Fase 3 -- Producto técnico (10\,\%)}. \\
+4 & 02-feb / 03-feb & Porciones indexadas de dataframes. \textbf{Fase 4 -- Defensa individual (8\,\%)}. \\
+5 & 09-feb / 10-feb & Creación y visualización de dataframes. Síntesis del curso. \textbf{Examen de Unidad 3}. \\
+\bottomrule
+\end{tabularx}
+\vspace{0.1cm}
+\begin{techbox}
+Pase de calificaciones de la Unidad 3: semana del 16 al 20 de febrero de 2027. Recuperación (quien no alcance 7/10): pase de calificaciones 08 al 12-mar-2027.
+\end{techbox}
+\end{frame}
+
+\begin{frame}{Panorama de evaluación del curso}
+\scriptsize
+\centering
+\renewcommand{\arraystretch}{1.05}
+\begin{tabularx}{\textwidth}{L{2.6cm}Y C{1.8cm}}
+\toprule
+\textbf{Componente} & \textbf{Instrumento} & \textbf{Ponderación} \\
+\midrule
+Evidencias en aula & Micro-retos (4, 0--3) + trabajo técnico (3, 0--3) + sustentación/validación (2, 0--3). & 15\,\% -- 1,50 \\
+Lecciones & Promedio de 3 lecciones individuales (0--10). & 25\,\% -- 2,50 \\
+Proyecto integrador & Formulación 3\,\% + avance 4\,\% + producto técnico 10\,\% + defensa individual 8\,\%. & 25\,\% -- 2,50 \\
+Examen & Evaluación individual de fin de unidad. & 35\,\% -- 3,50 \\
+\midrule
+\textbf{Total por unidad} & & \textbf{100\,\% -- 10,00} \\
+\bottomrule
+\end{tabularx}
+\begin{keybox}[top=2pt,bottom=2pt]
+\footnotesize Esta estructura se repite, con los mismos pesos, en las 3 unidades (\texttt{calificaciones\_programacion.xlsx}). \textbf{La calificación final es el promedio de las tres unidades.}
+\end{keybox}
+\begin{warnbox}[top=2pt,bottom=2pt]
+\footnotesize Nota mínima: 7/10. Celda vacía = evidencia pendiente; 0 = evidencia sin presentar. Recuperación solo si se reprueba menos del 20\,\% de horas y no es tercera matrícula.
+\end{warnbox}
+\end{frame}
+
+% ============================================================
+% Propósito, resultados de aprendizaje y mapa de contenidos
+% ============================================================
+\begin{frame}{Propósito de la Unidad 1}
+\small
+\begin{columns}[T,onlytextwidth]
+\column{0.56\textwidth}
+\begin{block}{En esta unidad}
+Se sientan las bases del pensamiento computacional: el entorno de programación, los fundamentos de un algoritmo, las variables y expresiones, y el ingreso y despliegue de resultados, aplicados a problemas ambientales sencillos y reproducibles.
+\end{block}
+\column{0.40\textwidth}
+\begin{envbox}
+Los ejemplos recorren relieve y accesibilidad, cobertura vegetal, clima e incendios forestales del dataset FIRELAB-Loja: los mismos contextos que un ingeniero ambiental automatiza en campo.
+\end{envbox}
+\end{columns}
+\vspace{0.02cm}
+\begin{keybox}[top=2pt,bottom=2pt]
+\footnotesize\textbf{Resultado de aprendizaje de la unidad:} conoce los elementos y estructuras básicas necesarias para el manejo de un lenguaje de programación, con capacidad de identificación y resolución de problemas sencillos, demostrando compromiso profesional.
+\end{keybox}
+\end{frame}
+
+\begin{frame}{Al finalizar la Unidad 1, usted podrá}
+\small
+\begin{enumerate}
+  \item Configurar y utilizar el entorno de programación en Visual Studio Code con Python.
+  \item Distinguir problema, algoritmo y programa, y representar un algoritmo con pseudocódigo o diagrama de flujo.
+  \item Declarar variables y constantes, y construir expresiones con los operadores adecuados.
+  \item Transformar un problema ambiental sencillo en una secuencia problema-datos-algoritmo-código-prueba-resultado.
+  \item Escribir programas que reciban datos con \texttt{input()} y muestren resultados legibles con \texttt{print()}.
+  \item Usar herramientas de inteligencia artificial de forma ética y responsable como apoyo al aprendizaje.
+\end{enumerate}
+\end{frame}
+
+% ============================================================
+% IA: oportunidad y responsabilidad + guía de instalación
+% ============================================================
+\begin{frame}{La IA en la programación: oportunidad y responsabilidad}
+\small
+\begin{columns}[T,onlytextwidth]
+\column{0.48\textwidth}
+\begin{block}{Por qué importa hoy}
+\begin{itemize}[itemsep=0pt,topsep=1pt]
+  \item Los asistentes de IA (Copilot, ChatGPT, Gemini, etc.) ya son parte del flujo real de trabajo de cualquier programador o ingeniero.
+  \item Bien usados, aceleran tareas repetitivas: depurar errores, entender mensajes de error, explorar sintaxis nueva.
+  \item No usarlos no lo hace \textit{más riguroso}; usarlos sin entender lo que hacen sí es un riesgo real.
+\end{itemize}
+\end{block}
+\column{0.48\textwidth}
+\begin{envbox}[title=Su responsabilidad]
+\begin{itemize}[itemsep=0pt,topsep=1pt]
+  \item Debe poder \textbf{explicar} cada línea de código que entrega como propia, la haya escrito usted o la IA.
+  \item Verifique siempre el resultado: la IA se equivoca con total confianza.
+  \item Cuidado al subir datos del proyecto a herramientas de IA sin conocer su política de privacidad.
+\end{itemize}
+\end{envbox}
+\end{columns}
+\vspace{0.08cm}
+\begin{keybox}[top=2pt,bottom=2pt]
+\footnotesize El sílabo del curso habilita el uso de IA como \textbf{apoyo}, nunca como sustituto del aprendizaje. Retomaremos esta política con ejemplos concretos de código en el Bloque A.
+\end{keybox}
+\end{frame}
+
+\begin{frame}{Mapa de contenidos}
+\centering
+\begin{tikzpicture}[
+  node distance=0.3cm,
+  box/.style={draw=morado,fill=moradoClaro!45,rounded corners,minimum width=3.5cm,minimum height=1.35cm,align=center,font=\small\bfseries,text=moradoOsc},
+  arr/.style={-{Latex},thick,draw=tealMedio}
+]
+\node[box] (a) {Bloque A\\[2pt]\footnotesize\normalfont Introducción a la\\programación};
+\node[box,below=of a] (b) {Bloque B\\[2pt]\footnotesize\normalfont Fundamentos de\\algoritmos};
+\node[box,right=1.1cm of a] (c) {Bloque C\\[2pt]\footnotesize\normalfont Variables,\\expresiones};
+\node[box,below=of c] (d) {Bloque D\\[2pt]\footnotesize\normalfont Aplicación de\\algoritmos};
+\node[box,right=1.1cm of c] (e) {Bloque E\\[2pt]\footnotesize\normalfont Datos y\\visualización};
+\draw[arr] (a) -- (b);
+\draw[arr] (a) -- (c);
+\draw[arr] (b) -- (d);
+\draw[arr] (c) -- (d);
+\draw[arr] (d) -- (e);
+\draw[arr] (c) -- (e);
+\end{tikzpicture}
+\vspace{0.3cm}
+\begin{techbox}
+\textbf{Lógica de avance:} del entorno y la sintaxis (bloque A) hacia el diseño del algoritmo (B, C), su aplicación completa (D) y la comunicación de resultados (E).
+\end{techbox}
+\end{frame}
+
+% ============================================================
+% BLOQUE A
+% ============================================================
+\bloque{Bloque A}{Introducción a la programación}{Entorno de trabajo, sintaxis básica y tipos de errores}
+
+\begin{frame}{Programación y pensamiento computacional}
+\small
+\begin{block}{Definición}
+\textbf{Programar} es escribir instrucciones, en un lenguaje que la computadora entiende, para resolver un problema. El \textbf{pensamiento computacional} es la habilidad de descomponer un problema, reconocer patrones y diseñar una solución paso a paso, antes de escribir código.
+\end{block}
+\vspace{0.1cm}
+\begin{itemize}
+  \item Usaremos \textbf{Python}: un lenguaje interpretado, de sintaxis clara y muy usado en ciencia de datos ambientales.
+  \item El entorno de trabajo del curso es \textbf{Visual Studio Code (VS Code)}.
+\end{itemize}
+\begin{keybox}[top=2pt,bottom=2pt]
+\footnotesize Aprender a programar no es memorizar código: es aprender a pensar de forma estructurada y verificable.
+\end{keybox}
+\end{frame}
+
+\begin{frame}[fragile]{Sintaxis básica y tipos de errores}
+\small
+\begin{lstlisting}
+# Primer programa: mensaje del proyecto FIRELAB-Loja
+mensaje = "Monitoreo ambiental - canton Loja"
+print(mensaje)
+\end{lstlisting}
+\vspace{0.05cm}
+\begin{itemize}[itemsep=1pt]
+  \item \texttt{\#} inicia un \textbf{comentario}: no se ejecuta, documenta el código.
+  \item La \textbf{indentación} (espacios al inicio de línea) organiza los bloques de código en Python.
+\end{itemize}
+\vspace{0.05cm}
+\begin{keybox}[top=2pt,bottom=2pt]
+\footnotesize\textbf{Errores de sintaxis:} el código no respeta las reglas del lenguaje. \textbf{Errores de ejecución:} el programa corre pero falla a mitad de camino. \textbf{Errores lógicos:} el programa corre sin fallar, pero el resultado es incorrecto.
+\end{keybox}
+\end{frame}
+
+\begin{frame}{Uso ético de la inteligencia artificial generativa}
+\small
+\begin{envbox}[title=Contexto del curso]
+El sílabo habilita el uso de herramientas de IA generativa como \textbf{apoyo} para revisar código, identificar errores o contrastar soluciones -nunca como sustituto de la comprensión ni de la responsabilidad del estudiante.
+\end{envbox}
+\vspace{0.1cm}
+\begin{itemize}[itemsep=1pt]
+  \item Se puede usar IA para \textbf{explicar} un error o \textbf{sugerir} una mejora.
+  \item El estudiante debe poder \textbf{explicar} cada línea que entrega como propia.
+  \item Se valorará la integridad académica, la privacidad y el uso responsable de los datos.
+\end{itemize}
+\end{frame}
+
+\begin{frame}{Comprobación rápida: introducción a la programación}
+\begin{checkbox}
+Un programa que calcula el promedio de precipitación se ejecuta sin marcar ningún error, pero entrega un resultado que no coincide con el cálculo manual. ¿Qué tipo de error es y qué se debe revisar?
+\end{checkbox}
+\vspace{0.2cm}
+\begin{keybox}[top=2pt,bottom=2pt]
+\footnotesize\textbf{Respuesta razonada:} es un \textbf{error lógico} -el programa corre, pero el procedimiento no calcula lo que se pretende-. Se debe revisar la fórmula, el orden de las operaciones y si se están incluyendo todos los datos esperados.
+\end{keybox}
+\end{frame}
+
+\begin{frame}{Síntesis del Bloque A}
+\begin{keybox}[top=2pt,bottom=2pt]
+\footnotesize Programar es traducir el pensamiento computacional en instrucciones precisas; Python y VS Code son las herramientas de trabajo de este curso.
+\end{keybox}
+\begin{keybox}[top=2pt,bottom=2pt]
+\footnotesize Distinguir errores de sintaxis, de ejecución y lógicos es la primera habilidad de depuración que debe dominar todo programador.
+\end{keybox}
+\vspace{0.1cm}
+\textit{A continuación: los fundamentos de un algoritmo, antes de escribir cualquier línea de código.}
+\end{frame}
+
+% ============================================================
+% BLOQUE B
+% ============================================================
+\bloque{Bloque B}{Fundamentos de algoritmos}{Problema, algoritmo y programa}
+
+\begin{frame}{Problema, algoritmo y programa}
+\small
+\begin{columns}[T,onlytextwidth]
+\column{0.48\textwidth}
+\begin{block}{Definiciones}
+\textbf{Problema:} situación que requiere solución. \textbf{Algoritmo:} secuencia finita y ordenada de pasos que resuelve el problema. \textbf{Programa:} algoritmo escrito en un lenguaje que la computadora ejecuta.
+\end{block}
+\column{0.48\textwidth}
+\begin{envbox}
+Problema: ¿cuántos días del mes tuvieron precipitación por encima de un umbral? El algoritmo recorre cada registro diario y cuenta los que cumplen la condición.
+\end{envbox}
+\end{columns}
+\vspace{0.1cm}
+\begin{center}
+\resizebox{0.85\textwidth}{!}{$\displaystyle
+\text{Entrada} \to \text{Proceso} \to \text{Salida}
+$}
+\end{center}
+\end{frame}
+
+\begin{frame}{Descomposición, abstracción y patrones}
+\small
+\begin{itemize}
+  \item \textbf{Descomposición:} dividir un problema grande en partes más pequeñas y manejables.
+  \item \textbf{Abstracción:} quedarse con lo esencial del problema, ignorando detalles irrelevantes.
+  \item \textbf{Reconocimiento de patrones:} identificar similitudes con problemas ya resueltos.
+\end{itemize}
+\vspace{0.15cm}
+\begin{envbox}
+Clasificar el riesgo de incendio de una celda se descompone en: (1) leer la humedad y la temperatura, (2) comparar contra umbrales, (3) asignar una categoría de riesgo.
+\end{envbox}
+\end{frame}
+
+\begin{frame}[fragile]{Pseudocódigo y diagramas de flujo}
+\small
+\begin{columns}[T,onlytextwidth]
+\column{0.46\textwidth}
+\textbf{Pseudocódigo}
+\begin{lstlisting}[language={},keywordstyle=\color{grafito}]
+leer humedad, temperatura
+si humedad < 30 y temperatura > 28:
+    riesgo = "alto"
+si no:
+    riesgo = "moderado"
+mostrar riesgo
+\end{lstlisting}
+\column{0.5\textwidth}
+\centering
+\begin{tikzpicture}[
+  node distance=0.35cm,
+  every node/.style={font=\tiny},
+  box/.style={draw=morado,fill=moradoClaro!35,rounded corners,minimum width=2.6cm,minimum height=0.7cm,align=center},
+  dec/.style={draw=morado,fill=acentoClaro!60,diamond,aspect=2,minimum width=2.6cm,align=center},
+  arr/.style={-{Latex},thick,draw=tealMedio}
+]
+\node[box] (i) {Leer humedad\\y temperatura};
+\node[dec,below=of i] (d) {¿Humedad$<$30 y\\Temp.$>$28?};
+\node[box,below left=0.3cm and -0.2cm of d] (s1) {riesgo = alto};
+\node[box,below right=0.3cm and -0.2cm of d] (s2) {riesgo = moderado};
+\draw[arr] (i) -- (d);
+\draw[arr] (d) -- (s1);
+\draw[arr] (d) -- (s2);
+\end{tikzpicture}
+\end{columns}
+\end{frame}
+
+\begin{frame}{Comprobación rápida: fundamentos de algoritmos}
+\begin{checkbox}
+Un equipo debe calcular el porcentaje de celdas con cobertura de bosque nativo mayor al 50\,\%. ¿Cuáles serían la entrada, el proceso y la salida de ese algoritmo?
+\end{checkbox}
+\vspace{0.2cm}
+\begin{keybox}[top=2pt,bottom=2pt]
+\footnotesize\textbf{Respuesta razonada:} \textbf{Entrada:} el listado de celdas con su porcentaje de bosque nativo. \textbf{Proceso:} contar cuántas celdas superan 50\,\% y dividir entre el total de celdas. \textbf{Salida:} el porcentaje resultante.
+\end{keybox}
+\end{frame}
+
+\begin{frame}{Síntesis del Bloque B}
+\begin{keybox}[top=2pt,bottom=2pt]
+\footnotesize Un algoritmo es la secuencia ordenada de pasos -entrada, proceso y salida- que resuelve un problema antes de escribir cualquier código.
+\end{keybox}
+\begin{keybox}[top=2pt,bottom=2pt]
+\footnotesize El pseudocódigo y los diagramas de flujo permiten diseñar y comunicar un algoritmo con claridad, independientemente del lenguaje de programación.
+\end{keybox}
+\vspace{0.1cm}
+\textit{A continuación: las herramientas concretas -variables, expresiones y sentencias- para escribir ese algoritmo en Python.}
+\end{frame}
+
+% ============================================================
+% BLOQUE C
+% ============================================================
+\bloque{Bloque C}{Herramientas para el diseño de algoritmos}{Variables, expresiones y sentencias}
+
+\begin{frame}[fragile]{Variables, constantes y tipos de datos}
+\small
+\begin{itemize}
+  \item \textbf{Variable:} nombre que identifica un valor que puede cambiar durante la ejecución.
+  \item \textbf{Constante:} valor que no cambia durante la ejecución del programa.
+  \item \textbf{Identificador:} el nombre de una variable o constante (debe ser claro y descriptivo).
+\end{itemize}
+\vspace{0.1cm}
+\begin{lstlisting}
+precipitacion_mm = 45.6      # float
+num_estaciones = 12          # int
+zona_riesgo = True           # bool
+nombre_cuenca = "El Carmen"  # str
+\end{lstlisting}
+\begin{keybox}[top=2pt,bottom=2pt]
+\footnotesize Python identifica el tipo automáticamente según el valor asignado: \texttt{int}, \texttt{float}, \texttt{bool} y \texttt{str} son los tipos básicos de este curso.
+\end{keybox}
+\end{frame}
+
+\begin{frame}[fragile]{Operadores y expresiones}
+\footnotesize
+\centering
+\renewcommand{\arraystretch}{1.0}
+\begin{tabularx}{\textwidth}{L{3.0cm}Y}
+\toprule
+\textbf{Tipo de operador} & \textbf{Ejemplos} \\
+\midrule
+Aritméticos & \texttt{+ - * / // \% **} (suma, resta, producto, división, división entera, módulo, potencia) \\
+Relacionales & \texttt{== != > < >= <=} (comparan dos valores; devuelven \texttt{True} o \texttt{False}) \\
+Lógicos & \texttt{and or not} (combinan condiciones) \\
+\bottomrule
+\end{tabularx}
+\vspace{0.1cm}
+\begin{lstlisting}
+dias_secos = 18
+dias_totales = 30
+proporcion_seca = dias_secos / dias_totales  # expresion aritmetica
+alerta = proporcion_seca > 0.5                # expresion relacional
+\end{lstlisting}
+\end{frame}
+
+\begin{frame}{Comprobación rápida: variables y expresiones}
+\begin{checkbox}
+¿Qué tipo de dato (\texttt{int}, \texttt{float}, \texttt{bool} o \texttt{str}) es el más adecuado para guardar el nombre de una estación meteorológica, y cuál para guardar si un día tuvo o no precipitación?
+\end{checkbox}
+\vspace{0.2cm}
+\begin{keybox}[top=2pt,bottom=2pt]
+\footnotesize\textbf{Respuesta razonada:} el nombre de la estación es \texttt{str} (una cadena de texto); si hubo o no precipitación es \texttt{bool} (\texttt{True}/\texttt{False}), porque es una condición de dos valores posibles.
+\end{keybox}
+\end{frame}
+
+\begin{frame}{Síntesis del Bloque C}
+\begin{keybox}[top=2pt,bottom=2pt]
+\footnotesize Las variables guardan datos con un tipo determinado; los operadores aritméticos, relacionales y lógicos construyen expresiones a partir de ellas.
+\end{keybox}
+\begin{keybox}[top=2pt,bottom=2pt]
+\footnotesize Elegir bien el tipo de dato evita errores lógicos y facilita la lectura del programa.
+\end{keybox}
+\vspace{0.1cm}
+\textit{A continuación: aplicar estas herramientas a un problema ambiental completo.}
+\end{frame}
+
+% ============================================================
+% BLOQUE D
+% ============================================================
+\bloque{Bloque D}{Aplicación de algoritmos}{De un problema real a una solución computacional}
+
+\begin{frame}{La secuencia completa de resolución}
+\small
+\begin{center}
+\resizebox{0.95\textwidth}{!}{$\displaystyle
+\text{Problema} \to \text{Datos} \to \text{Algoritmo} \to \text{Código} \to \text{Prueba} \to \text{Resultado}
+$}
+\end{center}
+\vspace{0.15cm}
+\begin{itemize}
+  \item \textbf{Prueba de escritorio:} seguir el algoritmo a mano, con datos pequeños, antes de programarlo.
+  \item \textbf{Depuración:} corregir errores identificados durante la prueba o ejecución.
+  \item \textbf{Validación:} verificar que el resultado tiene sentido para el problema ambiental planteado.
+\end{itemize}
+\begin{keybox}[top=2pt,bottom=2pt]
+\footnotesize Introducir principios de reproducibilidad: el mismo código, con los mismos datos, debe producir siempre el mismo resultado.
+\end{keybox}
+\end{frame}
+
+\begin{frame}[fragile]{Ejemplo aplicado: contar eventos de incendio por celda}
+\footnotesize
+\begin{lstlisting}
+eventos = [0, 1, 0, 2, 0, 0, 1, 3, 0, 1]  # incendios registrados por celda
+total_celdas_con_incendio = 0
+
+for valor in eventos:
+    if valor > 0:
+        total_celdas_con_incendio = total_celdas_con_incendio + 1
+
+print("Celdas con al menos un incendio:", total_celdas_con_incendio)
+\end{lstlisting}
+\vspace{0.1cm}
+\begin{keybox}[top=2pt,bottom=2pt]
+\footnotesize El algoritmo recorre cada celda (entrada), decide si tuvo incendios (proceso) y acumula el conteo (salida) -la misma lógica de "entrada-proceso-salida" del Bloque B, ya escrita en Python.
+\end{keybox}
+\end{frame}
+
+\begin{frame}{Comprobación rápida: aplicación de algoritmos}
+\begin{checkbox}
+Antes de ejecutar el programa del ejemplo anterior, ¿qué resultado debería arrojar una prueba de escritorio con la lista \texttt{[0,0,2,0,1]}?
+\end{checkbox}
+\vspace{0.2cm}
+\begin{keybox}[top=2pt,bottom=2pt]
+\footnotesize\textbf{Respuesta razonada:} \textbf{2} celdas con al menos un incendio (las que valen 2 y 1); los tres ceros no cumplen la condición \texttt{valor > 0}. Si el programa no arroja 2, hay un error que depurar.
+\end{keybox}
+\end{frame}
+
+\begin{frame}{Síntesis del Bloque D}
+\begin{keybox}[top=2pt,bottom=2pt]
+\footnotesize Todo problema se resuelve siguiendo la secuencia problema-datos-algoritmo-código-prueba-resultado.
+\end{keybox}
+\begin{keybox}[top=2pt,bottom=2pt]
+\footnotesize La prueba de escritorio y la depuración son parte del proceso, no un paso opcional al final.
+\end{keybox}
+\vspace{0.1cm}
+\textit{A continuación: cómo ingresar datos y comunicar resultados de forma clara y accesible.}
+\end{frame}
+
+% ============================================================
+% BLOQUE E
+% ============================================================
+\bloque{Bloque E}{Ingreso de datos y visualización}{\texttt{input()}, \texttt{print()} y comunicación de resultados}
+
+\begin{frame}[fragile]{Entrada y salida de información}
+\small
+\begin{lstlisting}
+nombre_zona = input("Nombre de la zona de monitoreo: ")
+temperatura = float(input("Temperatura registrada (C): "))
+
+print(f"Zona: {nombre_zona} - Temperatura: {temperatura:.1f} C")
+\end{lstlisting}
+\vspace{0.1cm}
+\begin{itemize}[itemsep=1pt]
+  \item \texttt{input()} siempre entrega texto (\texttt{str}); si se necesita un número, debe \textbf{convertirse} con \texttt{float()} o \texttt{int()}.
+  \item Las \textbf{f-strings} (\texttt{f"..."}) insertan variables y dan formato dentro de un mensaje.
+\end{itemize}
+\begin{keybox}[top=2pt,bottom=2pt]
+\footnotesize Validar el dato ingresado (por ejemplo, que la temperatura sea un número) evita errores de ejecución más adelante en el programa.
+\end{keybox}
+\end{frame}
+
+\begin{frame}{Comunicación clara y accesible de resultados}
+\small
+\begin{itemize}
+  \item Los mensajes de salida deben ser \textbf{legibles}: unidades, decimales razonables y contexto.
+  \item El formato \texttt{f"{valor:.1f}"} controla cuántos decimales se muestran.
+  \item Presentar resultados de forma clara favorece la \textbf{accesibilidad} de la información para cualquier lector.
+\end{itemize}
+\vspace{0.1cm}
+\begin{envbox}
+Un reporte que dice "23.456789 C" es menos útil que uno que dice "23.5 °C" -el segundo comunica con la precisión que el problema realmente necesita.
+\end{envbox}
+\end{frame}
+
+\begin{frame}{Comprobación rápida: datos y visualización}
+\begin{checkbox}
+Un programa recibe con \texttt{input()} el número de días con precipitación, pero al sumarlo con otro número marca un error. ¿Cuál es la causa más probable?
+\end{checkbox}
+\vspace{0.2cm}
+\begin{keybox}[top=2pt,bottom=2pt]
+\footnotesize\textbf{Respuesta razonada:} \texttt{input()} devuelve el dato como \textbf{texto (\texttt{str})}, no como número; falta convertirlo con \texttt{int()} (o \texttt{float()}) antes de sumarlo.
+\end{keybox}
+\end{frame}
+
+\begin{frame}{Síntesis del Bloque E}
+\begin{keybox}[top=2pt,bottom=2pt]
+\footnotesize \texttt{input()} y \texttt{print()} son la interfaz básica entre el programa y quien lo usa; conversión de tipos y f-strings hacen esa interfaz confiable y clara.
+\end{keybox}
+\begin{keybox}[top=2pt,bottom=2pt]
+\footnotesize Comunicar un resultado con el formato adecuado es tan importante como calcularlo correctamente.
+\end{keybox}
+\vspace{0.1cm}
+\textit{A continuación: cierre de la Unidad 1 y enlace con condicionales e iteraciones en la Unidad 2.}
+\end{frame}
+
+% ============================================================
+% CIERRE
+% ============================================================
+\bloque{Cierre}{Síntesis integral de la Unidad 1}{Del entorno de trabajo a un primer programa completo}
+
+\begin{frame}{Lo que hemos construido}
+\small
+\begin{enumerate}
+  \item \textbf{Bloque A:} el entorno de trabajo (VS Code, Python) y la sintaxis básica del lenguaje.
+  \item \textbf{Bloque B:} problema, algoritmo y programa; pseudocódigo y diagramas de flujo.
+  \item \textbf{Bloque C:} variables, tipos de datos y expresiones con operadores.
+  \item \textbf{Bloque D:} la secuencia completa problema-datos-algoritmo-código-prueba-resultado.
+  \item \textbf{Bloque E:} entrada con \texttt{input()} y salida clara con \texttt{print()} y f-strings.
+\end{enumerate}
+\end{frame}
+
+\begin{frame}{Ejercicio de cierre: FIRELAB-Loja}
+\small
+Un equipo necesita un programa que pida al usuario la cantidad de hectáreas quemadas en un evento y muestre si supera un umbral de alerta de 50 hectáreas.
+\vspace{0.1cm}
+\begin{checkbox}
+¿Qué bloques de esta unidad debe combinar el equipo para escribir ese programa? Use lo aprendido en los bloques C, D y E.
+\end{checkbox}
+\vspace{0.15cm}
+\begin{keybox}[top=2pt,bottom=2pt]
+\footnotesize\textbf{Respuesta razonada:} \textbf{Bloque E} para leer el dato con \texttt{input()} y convertirlo a número; \textbf{Bloque C} para guardar el umbral en una variable y construir la expresión relacional de comparación; \textbf{Bloque D} para seguir la secuencia completa -incluida una prueba de escritorio- antes de confiar en el resultado.
+\end{keybox}
+\end{frame}
+
+\begin{frame}{Cierre de la Unidad 1}
+\begin{keybox}[top=2pt,bottom=2pt]
+\footnotesize Programar es traducir un problema ambiental en una secuencia precisa de pasos, y esos pasos en código que se puede probar, depurar y confiar.
+\end{keybox}
+\begin{keybox}[top=2pt,bottom=2pt]
+\footnotesize Las variables, expresiones y la entrada/salida de esta unidad son la base de las estructuras de control que veremos en la Unidad 2.
+\end{keybox}
+\vspace{0.1cm}
+\begin{center}
+\Large\textbf{Siguiente paso: condicionales e iteraciones en la Unidad 2}
+\end{center}
+\end{frame}
+
+\end{document}

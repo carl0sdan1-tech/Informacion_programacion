@@ -1,0 +1,290 @@
+\documentclass[11pt,a4paper]{article}
+
+% Guia de practica 04: fundamentos de algoritmos (Bloque B)
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage[spanish,es-noshorthands,es-nodecimaldot,es-tabla]{babel}
+\usepackage{lmodern}
+\usepackage[margin=2.3cm]{geometry}
+\usepackage{amsmath,amssymb}
+\usepackage{xcolor}
+\usepackage{enumitem}
+\usepackage[most]{tcolorbox}
+\usepackage{fancyhdr}
+\usepackage{titlesec}
+\usepackage{array,tabularx,booktabs}
+\usepackage{listings}
+\usepackage{xurl}
+\usepackage{hyperref}
+\usepackage{parskip}
+
+\definecolor{morado}{RGB}{74,20,99}
+\definecolor{moradoMedio}{RGB}{123,63,157}
+\definecolor{moradoClaro}{RGB}{224,208,235}
+\definecolor{tealProfundo}{RGB}{0,90,99}
+\definecolor{tealClaro}{RGB}{204,232,232}
+\definecolor{acento}{RGB}{198,110,38}
+\definecolor{acentoClaro}{RGB}{247,226,201}
+\definecolor{grafito}{RGB}{51,51,51}
+\definecolor{grisClaro}{RGB}{244,246,245}
+\definecolor{codigoFondo}{RGB}{248,247,251}
+
+\hypersetup{colorlinks=true,linkcolor=morado,urlcolor=moradoMedio,
+  pdftitle={Guia de practica 04: Fundamentos de algoritmos},
+  pdfauthor={Programacion y Base de Datos - UNL},bookmarksopen=true}
+\titleformat{\section}{\Large\bfseries\color{morado}}{\thesection.}{0.5em}{}
+\titleformat{\subsection}{\large\bfseries\color{morado}}{\thesubsection}{0.5em}{}
+\titlespacing*{\section}{0pt}{1.3em}{0.6em}
+\pagestyle{fancy}
+\fancyhf{}
+\setlength{\headheight}{14pt}
+\renewcommand{\headrulewidth}{0.6pt}
+\fancyhead[L]{\small\color{grafito}Programacion y Base de Datos -- Unidad 1}
+\fancyhead[R]{\small\color{grafito}Practica 04: Algoritmos}
+\fancyfoot[C]{\small\thepage}
+\setlist[itemize]{itemsep=2pt,topsep=3pt}
+\setlist[enumerate]{itemsep=4pt,topsep=3pt}
+
+\lstdefinestyle{pseudo}{
+  basicstyle=\ttfamily\small\color{grafito},
+  backgroundcolor=\color{codigoFondo},
+  frame=leftline,framerule=3pt,rulecolor=\color{moradoMedio},
+  xleftmargin=16pt,framexleftmargin=5pt,
+  breaklines=true,columns=fullflexible,keepspaces=true,
+  showstringspaces=false,tabsize=4,aboveskip=7pt,belowskip=7pt
+}
+\lstnewenvironment{pseudocodigo}{\lstset{style=pseudo}}{}
+\newtcolorbox{objetivo}{colback=tealClaro!40,colframe=tealProfundo,
+  arc=2pt,boxrule=0.8pt,left=8pt,right=8pt,top=6pt,bottom=6pt,breakable}
+\newtcolorbox{atencion}{colback=acentoClaro!65,colframe=acento,
+  arc=2pt,boxrule=0.8pt,left=8pt,right=8pt,top=6pt,bottom=6pt,breakable}
+\newcommand{\code}[1]{\texttt{#1}}
+\newcommand{\nbfile}{\code{03\_fundamentos\_algoritmos.ipynb}}
+
+\begin{document}
+
+\begin{titlepage}
+\centering
+\vspace*{0.8cm}
+{\large Universidad Nacional de Loja\\[3pt]
+Facultad Agropecuaria y de Recursos Naturales Renovables\\[3pt]
+Carrera de Ingenieria Ambiental}\par
+\vspace{1.5cm}
+{\Large\color{moradoMedio}\bfseries GUIA DE PRACTICA N.\textsuperscript{o} 04}\par
+\vspace{10pt}
+{\Huge\bfseries\color{morado}Fundamentos de algoritmos}\par
+\vspace{8pt}
+{\Large\color{morado}Problema, algoritmo y programa -- Bloque B}\par
+\vspace{1cm}
+\begin{objetivo}
+\textbf{Proposito.} Analizar problemas ambientales sencillos y representar sus soluciones mediante entrada, proceso y salida, pseudocodigo, diagramas de flujo y pruebas de escritorio, antes de escribir codigo.
+\end{objetivo}
+\vspace{1cm}
+\begin{tabular}{rl}
+\textbf{Asignatura:} & Programacion y Base de Datos (2.\textsuperscript{o} ciclo) \\
+\textbf{Docente:} & Guillermo Chuncho Morocho \\
+\textbf{Ciclo academico:} & Septiembre 2026 -- Febrero 2027 \\
+\textbf{Cuaderno de trabajo:} & \nbfile{} \\
+\textbf{Duracion estimada:} & 4 horas (2 en clase + 2 de trabajo autonomo) \\
+\textbf{Modalidad:} & Practica guiada y trabajo individual \\
+\end{tabular}
+\vfill
+{\small Loja, Ecuador}
+\end{titlepage}
+
+\tableofcontents
+\newpage
+
+\section{Datos informativos}
+\begin{center}
+\renewcommand{\arraystretch}{1.3}
+\begin{tabularx}{\textwidth}{>{\bfseries\color{morado}}p{4.1cm}X}
+\toprule
+Unidad & Unidad 1 -- Introduccion a la programacion \\
+Bloque & B: Fundamentos de algoritmos \\
+Tema & Problema, algoritmo, programa, descomposicion y representacion \\
+Herramienta & Cuaderno Jupyter/Google Colab: \nbfile{} \\
+Contexto & Datos de lluvia, cobertura forestal, agua y biodiversidad \\
+Conocimientos previos & Uso basico de celdas Markdown y lectura de tablas \\
+\bottomrule
+\end{tabularx}
+\end{center}
+
+\section{Objetivos}
+\subsection{Objetivo general}
+Diseñar y comprobar algoritmos para problemas ambientales sencillos, representandolos con el esquema entrada--proceso--salida, pseudocodigo y diagramas de flujo.
+
+\subsection{Objetivos especificos}
+\begin{enumerate}
+  \item Diferenciar problema, algoritmo y programa con ejemplos de monitoreo ambiental.
+  \item Aplicar descomposicion, abstraccion y reconocimiento de patrones para organizar un problema.
+  \item Identificar entradas, procesos y salidas pertinentes para una solucion.
+  \item Escribir pseudocodigo claro y elaborar un flujograma con simbolos adecuados.
+  \item Realizar una prueba de escritorio y verificar resultados con casos limite.
+\end{enumerate}
+
+\section{Materiales y organizacion}
+\begin{itemize}
+  \item Computador o cuaderno de apuntes; acceso al cuaderno \nbfile{}.
+  \item Lapiz, regla o herramienta de diagramacion para el flujograma.
+  \item Datos de ejemplo incluidos en el notebook; no se requieren paquetes ni programacion en Python para esta practica.
+\end{itemize}
+
+\begin{atencion}
+Esta guia trabaja el diseno del algoritmo antes de traducirlo a Python. No se evaluara que el estudiante escriba codigo: se evaluara que la solucion sea finita, ordenada, comprensible y comprobable.
+\end{atencion}
+
+\section{Fundamento teorico}
+\subsection{Tres conceptos relacionados}
+\begin{itemize}
+  \item \textbf{Problema:} pregunta o situacion que se desea resolver.
+  \item \textbf{Algoritmo:} secuencia finita y ordenada de pasos para obtener una solucion.
+  \item \textbf{Programa:} algoritmo expresado en un lenguaje que la computadora puede ejecutar.
+\end{itemize}
+Un algoritmo puede revisarse en lenguaje cotidiano, pseudocodigo o flujograma sin depender todavia de Python.
+
+\subsection{Pensamiento computacional}
+\textbf{Descomponer} es dividir la tarea en partes manejables; \textbf{abstraer} es conservar lo relevante y dejar de lado detalles que no afectan la solucion; \textbf{reconocer patrones} es advertir pasos que se repiten. Estas herramientas ayudan a proponer un algoritmo antes de elegir instrucciones de un lenguaje.
+
+\subsection{Entrada, proceso y salida}
+\begin{center}
+\renewcommand{\arraystretch}{1.35}
+\begin{tabularx}{0.95\textwidth}{>{\bfseries\color{morado}}p{2.7cm}X}
+\toprule
+Entrada & Datos indispensables para resolver la pregunta. \\
+Proceso & Operaciones, comparaciones y decisiones aplicadas a los datos. \\
+Salida & Resultado interpretable que responde la pregunta, con contexto y unidades cuando corresponda. \\
+\bottomrule
+\end{tabularx}
+\end{center}
+
+\subsection{Pseudocodigo y flujograma}
+El pseudocodigo describe instrucciones con lenguaje claro y estructura ordenada, sin exigir una sintaxis particular. En un flujograma, el ovalo representa inicio/fin, el paralelogramo entrada/salida, el rectangulo proceso, el rombo decision y las flechas indican el orden.
+
+\subsection{Prueba de escritorio}
+Consiste en simular a mano el algoritmo con datos pequenos, registrando como cambia cada variable o contador. Se recomienda probar un caso habitual y casos limite: una lista vacia, valores iguales al umbral o datos que no cumplen la condicion.
+
+\section{Desarrollo de la practica}
+Para cada actividad, primero lea la seccion correspondiente del notebook, redacte sus respuestas en una celda Markdown o en esta guia y compare su razonamiento con la prueba indicada. No copie una solucion sin poder explicar cada paso.
+
+\subsection{Actividad 1. Del contexto a la pregunta}
+\textbf{Consigna.} Un equipo dispone de registros diarios de precipitacion de una estacion y necesita informar cuantos dias del mes superaron los 10 mm.
+\begin{enumerate}
+  \item Redacte el problema como una pregunta concreta.
+  \item Explique la diferencia entre el problema, el algoritmo que lo resuelve y el programa que podria ejecutarlo.
+  \item Descomponga el trabajo en al menos tres subtareas ordenadas.
+  \item Anote un dato necesario y un detalle irrelevante para responder la pregunta.
+\end{enumerate}
+
+\subsection{Actividad 2. Esquema entrada--proceso--salida}
+Complete la tabla para el conteo de dias lluviosos. Sea preciso con el umbral: solo cuenta un dia si la lluvia es estrictamente mayor que 10 mm.
+\begin{center}
+\renewcommand{\arraystretch}{1.7}
+\begin{tabularx}{\textwidth}{>{\bfseries\color{morado}}p{3cm}X}
+\toprule
+Entrada & \\
+Proceso & \\
+Salida & \\
+\bottomrule
+\end{tabularx}
+\end{center}
+
+\subsection{Actividad 3. Escribir pseudocodigo}
+Escriba una secuencia finita de pasos que resuelva el conteo. Su propuesta debe leer la lista y el umbral, iniciar el contador, revisar cada observacion, actualizarlo solo cuando la condicion se cumpla y mostrar el resultado.
+
+\textbf{Espacio de trabajo:}
+\begin{pseudocodigo}
+INICIO
+    Escriba aqui su pseudocodigo
+FIN
+\end{pseudocodigo}
+
+\textbf{Comprobacion:} identifique donde comienza el algoritmo, cual es su condicion, cuando cambia el contador y que evento detiene la revision de la lista.
+
+\subsection{Actividad 4. Construir el flujograma}
+Dibuje el algoritmo de la actividad 3. Incluya inicio y fin, lectura de datos, inicializacion del contador, decision sobre cada lluvia, actualizacion del contador, avance a la siguiente observacion y presentacion del resultado.
+\begin{itemize}
+  \item Use rombo para la comparacion \code{lluvia > 10} y rotule las ramas \textbf{Si} y \textbf{No}.
+  \item Asegure que ambas ramas continuen correctamente y que el ciclo termine al revisar todos los datos.
+  \item Revise que no existan pasos sin entrada o salida ni flechas ambiguas.
+\end{itemize}
+
+\subsection{Actividad 5. Prueba de escritorio}
+Use las observaciones \code{[0, 12, 8, 25]} mm y umbral de 10 mm. Complete la tabla y determine el resultado final.
+\begin{center}
+\renewcommand{\arraystretch}{1.5}
+\begin{tabularx}{0.85\textwidth}{c c c}
+\toprule
+Observacion (mm) & ¿Supera 10 mm? & Contador \\
+\midrule
+0 & & \\
+12 & & \\
+8 & & \\
+25 & & \\
+\bottomrule
+\end{tabularx}
+\end{center}
+Responda: ¿que resultado espera? ¿Que ocurriria si una medicion fuera exactamente 10 mm? ¿Como cambiaria el resultado si el problema pidiera lluvia \emph{mayor o igual} a 10 mm?
+
+\subsection{Actividad 6. Aplicacion: cobertura de bosque nativo}
+Un equipo analiza cinco celdas con porcentajes de cobertura \code{[65, 40, 52, 50, 80]}. Debe informar cuantas tienen cobertura estrictamente superior al 50\,\% y que porcentaje representan del total.
+\begin{enumerate}
+  \item Defina el problema y las entradas.
+  \item Describa el proceso y la salida usando E-P-S.
+  \item Escriba pseudocodigo, incluyendo el conteo y el calculo del porcentaje.
+  \item Haga una prueba de escritorio que muestre el contador despues de cada celda.
+  \item Verifique manualmente el porcentaje final.
+\end{enumerate}
+
+\subsection{Actividad 7. Transferencia: calidad del agua}
+Un laboratorio tiene mediciones de pH de varios puntos de una quebrada y necesita reportar su promedio. Sin programar, indique el problema, entradas, proceso y salida. Explique como modificaria el algoritmo si tambien se solicitara el numero de mediciones superiores a un valor de referencia entregado por el laboratorio.
+
+\section{Buenas practicas de diseno}
+\begin{itemize}
+  \item Escriba pasos en orden y use verbos concretos: leer, comparar, acumular, calcular y mostrar.
+  \item Defina los limites con precision: \code{>} no significa lo mismo que \code{>=}.
+  \item Asegure que los nombres de las salidas expliquen que se conto o calculo.
+  \item Compruebe que todo ciclo tiene una condicion de termino y que cada observacion se procesa una sola vez.
+  \item Use datos pequenos para validar el razonamiento antes de traducirlo a un lenguaje.
+\end{itemize}
+
+\section{Autoevaluacion}
+Responda con sus propias palabras:
+\begin{enumerate}
+  \item ¿En que se diferencian problema, algoritmo y programa?
+  \item ¿Que datos son esenciales y cuales se pueden abstraer en un problema?
+  \item ¿Que representa cada etapa de entrada, proceso y salida?
+  \item ¿Que simbolos del flujograma representan una decision y un proceso?
+  \item ¿Que permite detectar una prueba de escritorio antes de escribir codigo?
+  \item ¿Por que es importante probar un valor igual al umbral?
+\end{enumerate}
+
+\section{Entregable y evaluacion}
+\subsection{¿Que entregar?}
+Entregue el notebook \code{P04\_Apellido\_Nombre.ipynb}, con las respuestas de las actividades 1 a 7 y la autoevaluacion. El cuaderno debe incluir el esquema E-P-S, pseudocodigo, flujograma (insertado como imagen o elaborado en una celda de texto) y las pruebas de escritorio. Puede exportarlo como \code{.ipynb} desde Colab/Jupyter o compartir el enlace segun las indicaciones del docente.
+
+Antes de enviar, revise que los diagramas se lean con claridad y que el pseudocodigo coincida con la prueba de escritorio. No se requiere ejecutar codigo Python para esta guia.
+
+\subsection{Rubrica}
+\begin{center}
+\renewcommand{\arraystretch}{1.3}
+\begin{tabularx}{\textwidth}{>{\raggedright\arraybackslash}p{3.3cm}XXX}
+\toprule
+\textbf{Criterio} & \textbf{Logrado} & \textbf{En progreso} & \textbf{Por fortalecer} \\
+\midrule
+Analisis y E-P-S & Identifica problema y datos pertinentes; proceso y salida responden a la pregunta. & Presenta una omision menor. & Confunde etapas o selecciona datos sin relacion. \\
+Pseudocodigo & Pasos claros, ordenados, finitos y coherentes con el criterio. & Solucion casi completa con alguna ambiguedad. & Pasos incompletos o no resuelven la pregunta. \\
+Flujograma & Simbolos y rutas correctos; ciclo y fin son claros. & Se entiende con pequenos problemas de notacion. & Decisiones o flechas no representan el algoritmo. \\
+Prueba y validacion & Tabla completa y resultado verificado manualmente. & Presenta un error menor de seguimiento. & No comprueba el contador o el resultado. \\
+Comunicacion & Usa nombres, unidades y explicaciones precisas. & La explicacion es comprensible pero incompleta. & No puede explicar su representacion. \\
+\bottomrule
+\end{tabularx}
+\end{center}
+
+\section{Referencias}
+\begin{itemize}
+  \item Python Software Foundation. (2025). \emph{El tutorial de Python}. \url{https://docs.python.org/es/3/tutorial/}
+  \item Downey, A. B. (2024). \emph{Think Python: How to think like a computer scientist} (3.\textsuperscript{a} ed.). \url{https://allendowney.github.io/ThinkPython/}
+\end{itemize}
+
+\end{document}
