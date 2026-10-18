@@ -1,0 +1,305 @@
+\documentclass[11pt,a4paper]{article}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage[spanish,es-nodecimaldot]{babel}
+\usepackage{lmodern}
+\usepackage[margin=2.4cm,headheight=14pt]{geometry}
+\usepackage{booktabs,tabularx,array,longtable}
+\newcolumntype{L}[1]{>{\raggedright\arraybackslash}p{#1}}
+\usepackage{enumitem}
+\usepackage{xcolor}
+\usepackage{fancyhdr}
+\usepackage{hyperref}
+
+\definecolor{verde}{HTML}{174A45}
+\definecolor{gris}{HTML}{475569}
+\hypersetup{colorlinks=true,linkcolor=verde,urlcolor=verde}
+\setlength{\parskip}{5pt}
+\setlength{\parindent}{0pt}
+\setlist{leftmargin=*,itemsep=2pt,topsep=3pt}
+\pagestyle{fancy}
+\fancyhf{}
+\lhead{Programación y bases de datos}
+\rhead{Avance 2 -- Proyecto integrador}
+\cfoot{\thepage}
+\renewcommand{\headrulewidth}{0.4pt}
+\newcommand{\completar}[1]{\textit{\textcolor{gris}{#1}}}
+
+\begin{document}
+\hypersetup{pageanchor=false}
+
+\begin{titlepage}
+\centering
+\vspace*{2.0cm}
+{\Large\bfseries UNIVERSIDAD NACIONAL DE LOJA\par}
+\vspace{0.3cm}
+{\large Facultad Agropecuaria y de Recursos Naturales Renovables\par}
+{\large Carrera de Ingeniería Ambiental\par}
+\vspace{1.3cm}
+{\color{verde}\rule{0.82\linewidth}{1.3pt}\par}
+\vspace{0.55cm}
+{\huge\bfseries \completar{Título del proyecto: Relieve y accesibilidad en celdas del sur de Loja, 2019–2024}\par}
+\vspace{0.45cm}
+{\Large Avance 2\par}
+\vspace{0.55cm}
+{\color{verde}\rule{0.82\linewidth}{1.3pt}\par}
+\vfill
+\begin{tabular}{rl}
+\textbf{Asignatura:} & Programación y bases de datos\\
+\textbf{Grupo:} & \completar{Grupo N°2}\\
+\textbf{Integrantes:}
+ & \completar{Sonia Noemi Rodriguez jaramillo}\\
+ & \completar{Nashelly Estephania Abarca Alarcón}\\
+ & \completar{Carlos Daniel González Castillo}\\
+ & \completar{Yanira Maily Rojas Vegas}\\
+ & \completar{Lucia Ester Marín Rojas}\\
+
+\textbf{Período lectivo:} & octubre 2026 -- febrero 2027\\
+\end{tabular}
+\vspace{1cm}
+\end{titlepage}
+\hypersetup{pageanchor=true}
+
+\section{Problema de investigación}
+\subsection{Descripción del problema}
+La zona sur del cant´on Loja presenta un territorio con caracter´ısticas de relieve variado, ubicado en una zona de transici´on entre el valle y las estribaciones de la cordillera de los Andes. Sin embargo, no se ha descrito sistem´aticamente cu´anto var´ıa su elevaci´on, cu´ales son sus valores extremos ni c´omo se distribuye el relieve en este sector, por lo que se carece de un conocimiento detallado de estas caracter´ısticas. Contar con esta informaci´on es importante porque el relieve condiciona m´ultiples procesos del territorio, como la formaci´on de suelos, el comportamiento del agua y las actividades que se pueden desarrollar en la zona. Se dispone de registros de elevaci´on correspondientes a celdas que cubren la zona sur del cant´on Loja. Con estos datos es posible calcular y describir las caracter´ısticas principales del relieve de forma reproducible, sin extender el an´alisis a relaciones que la informaci´on no permita comprobar. 1.¿Qu´e ocurre en la zona? La zona sur del cant´on Loja presenta un relieve muy variado. Existen zonas de monta˜na y zonas m´as bajas, con diferencias importantes en qu´e tan inclinado es el terreno. Algunas ´areas miran hacia el norte, otras hacia el sur, y esto influye en qu´e tanto sol reciben, c´omo escurre el agua y qu´e actividades se pueden realizar. Adem´as, hay zonas muy cercanas a los poblados y otras m´as alejadas. 2.¿Qu´e no se ha medido o comparado? Aunque tenemos los datos de cada celda, no se ha descrito ni comparado todav´ıa:- Cu´al es la altura promedio, la m´as alta y la m´as baja de toda la zona.Qu´e porcentaje del terreno es suave y cu´al es muy inclinado.- Si las zonas m´as altas son tambi´en las m´as inclinadas.- Hacia qu´e puntos cardinales mira la mayor parte del terreno.- Qu´e zonas altas quedan cerca de los asentamientos y cu´ales quedan alejadas. 3. ¿Qu´e variable concreta lo representa? Las variables que nos permiten responder todo esto son:
+\begin{enumerate}
+  \item Elevaci´on: altura sobre el nivel del mar.
+  \item Pendiente: qu´e tan inclinado es el terreno (en grados).
+  \item Orientaci´on: hacia d´onde mira la pendiente (norte-sur, este-oeste).
+  \item Distancia a asentamientos: qu´e tan lejos est´a de los poblados.
+\end{enumerate}
+¿Qu´e puede calcularse con el CSV del grupo? Con los datos que tienes en tu tabla puedes calcular: 4.1 Promedio de elevaci´on y pendiente de toda la zona 4.2 Valores extremos: la celda m´as alta, la m´as baja, la m´as inclinada y la m´as plana 4.3 Relaci´on: si a mayor altura suele haber m´as inclinaci´on 4.4Distribuci´on: cu´antas celdas miran al norte y cu´antas al sur.
+
+
+
+\subsection{Pregunta de investigación}
+¿Qué relación existe entre la pendiente media del terreno y la distancia media a la vía más cercana en la zona sur del cantón Loja según la base 2019-2024?
+
+\subsection{Hipótesis}
+En las 29 celdas de 500 m con datos de distancia de la zona sur del cantón Loja (centro_y_m < 9 555 250), entre 2019 y 2024, la distancia a las vías (osm_distancia_vias_m_mean) y a los asentamientos (ghs_distancia_asentamiento_m_mean) aumenta con la elevación (alos_elevacion_m_mean) y con la pendiente (alos_pendiente_grados_mean). Indicador: coeficiente de Spearman por celda para los cuatro pares de variables. Criterio: la hipótesis se sustenta si ρ > 0 con valor p unilateral ajustado por Holm < 0,05 en los cuatro pares; se sustenta parcialmente si se cumple en algunos; no se sustenta si en ninguno. Como contraste complementario, la mediana de distancia a vías y a asentamientos será mayor en las celdas de elevación alta (≥ mediana) que en las de elevación baja (U de Mann-Whitney, p < 0,05). Hipótesis nula: ρ = 0. Los resultados indican asociación, no causalidad
+
+\section{Objetivos}
+\subsection{Objetivo general}
+Analizar correctamente la zona en la que se van aplicar las celdas con los estudios y exploracion, en las celdas anotar el registro pot años y meses segun las filas y los rangos que se van a realizar el lugar asignado de estudio.
+\subsection{Objetivos específicos}
+\begin{enumerate}
+  \item \completar{Verificar con datos solidos en cada celda el año y los meses que se va atrabajr de la zona y la relacion que tiene con la accesibilidad.}
+  \item \completar{Analizar correctamente los datos con la zona, su ubicacion y su asseciblidad con las vias .}
+  \item \completar{Realizar un estudio preciso y analitico con la ayuda de las celdas del lugar que va a ser estudiado y llevar un registro de lo que se vio en datos.}
+\end{enumerate}
+
+\section{Metodología}
+\subsection{Zona de estudio y fuente de datos}
+La zona de estudio es la zona sur del cantón Loja. Se emplea la base didáctica asignada al
+grupo~2 (tema: relieve), el archivo \texttt{equipo\_02\_relieve\_sur.csv}
+(Universidad Nacional de Loja, 2026b), y el diccionario oficial de variables
+(Universidad Nacional de Loja, 2026a) para confirmar significados, unidades y rangos esperados.
+La unidad de observación es una celda de 500\,m\,$\times$\,500\,m (0,25\,km$^2$) en un mes. La
+asignación se comprobó por el nombre del archivo (equipo~02, relieve, sur) y por la regla
+oficial de zona, que usa \texttt{centro\_y\_m}: zona sur si \texttt{centro\_y\_m}\,$<$\,9\,555\,250.
+La base ya viene separada por grupo: no se une con otras bases ni se vuelve a dividir, y el
+archivo CSV es de solo lectura.
+
+\textbf{Grupo y tema:} Grupo~2, relieve.\\
+\textbf{Zona:} zona sur del cantón Loja. Se verificó que las 2\,160 filas cumplen la regla
+(\texttt{centro\_y\_m} va de 9\,504\,250 a 9\,554\,250\,m).\\
+\textbf{Archivo asignado:} \texttt{equipo\_02\_relieve\_sur.csv}, de la carpeta compartida de
+bases de datos del proyecto integrador.\\
+\textbf{Período y observación:} enero de 2019 a diciembre de 2024 (72 meses); celda de 500\,m
+en un mes. Son 30 celdas $\times$ 72 meses = 2\,160 registros. No se incorpora el año 2025.
+
+\textbf{Alcance.} La muestra describe únicamente las 30 celdas entregadas; sus resultados no
+son una estimación oficial para todo el cantón Loja.
+
+\subsection{Variables seleccionadas}
+La tabla siguiente recoge las variables que se usarán, con el nombre exacto de la columna, su
+significado, unidad y tipo según el diccionario (Universidad Nacional de Loja, 2026a), y el
+rango observado en las 2\,160 filas revisadas. Se distinguen las variables analíticas de los
+controles de calidad. Todos los rangos observados caen dentro de los rangos esperados del
+diccionario.
+
+\begingroup
+\footnotesize
+\setlength{\tabcolsep}{4pt}
+\begin{longtable}{@{}L{3.3cm}L{3.9cm}L{1.7cm}L{1.5cm}L{1.9cm}L{2.3cm}@{}}
+\toprule
+\textbf{Variable (columna)} & \textbf{Significado} & \textbf{Unidad de medida} & \textbf{Tipo} & \textbf{Uso en el análisis} & \textbf{Rango observado}\\
+\midrule
+\endfirsthead
+\toprule
+\textbf{Variable (columna)} & \textbf{Significado} & \textbf{Unidad de medida} & \textbf{Tipo} & \textbf{Uso en el análisis} & \textbf{Rango observado}\\
+\midrule
+\endhead
+\bottomrule
+\endfoot
+\texttt{alos\_elevacion\_m\_mean}\\ 
+& Elevación media de la celda (modelo digital ALOS). & m & numérica & Analítica & 1\,462,40--3\,238,79\\
+\texttt{alos\_pendiente\_grados\_mean}\\ 
+& Pendiente media del terreno. & grados & numérica & Analítica & 11,93--35,42\\
+\texttt{alos\_northness\_mean} & Orientación hacia el norte (coseno de la orientación): 1 = ladera hacia el norte, $-1$ = hacia el sur. & adimensional & numérica & Analítica & $-0{,}6907$ a $0{,}8298$\\
+\texttt{alos\_eastness\_mean} & Orientación hacia el este (seno de la orientación): 1 = ladera hacia el este, $-1$ = hacia el oeste. & adimensional & numérica & Analítica & $-0{,}9120$ a $0{,}8145$\\
+\texttt{ghsl\_distancia\_asentamiento\_m\_mean}\\
+ & Distancia media de la celda al asentamiento (zona construida) más cercano según GHSL. & m & numérica & Analítica & 85,66--5\,517,25 (72 vacíos)\\
+\texttt{osm\_distancia\_vias\_m\_mean}\\ 
+& Distancia media de la celda a la vía más cercana según OpenStreetMap. & m & numérica & Analítica & 60,26--9\,900,10 (72 vacíos)\\
+\texttt{cell\_id}\\ 
+& Identificador de la celda de 500\,m\,$\times$\,500\,m (fila R y columna C de la malla). & texto & categórica & Control (unidad de análisis) & 30 valores únicos\\
+\texttt{centro\_y\_m} & Coordenada Y (norte) del centro de la celda, proyección UTM; define la zona. & m & numérica & Control (zona) & 9\,504\,250--9\,554\,250\\
+\texttt{anio} & Año del registro. & año & numérica (entero) & Control (período) & 2019--2024\\
+\texttt{mes} & Mes del registro. & mes & numérica (entero) & Control (período) & 1--12\\
+\texttt{anio\_mes} & Año y mes del registro en forma de texto (AAAA-MM). & texto & categórica & Control (período) & 2019-01 a 2024-12\\
+\texttt{alos\_elevacion\_m\_coverage}\\ 
+& Fracción de la celda con dato válido de ALOS. & fracción & numérica & Control (calidad) & 0,8908--1\\
+\texttt{ghsl\_distancia\_asentamiento\_m\_coverage}\\ 
+& Fracción de la celda con dato válido de GHSL. & fracción & numérica & Control (calidad)\\ 
+& 0 y 1\\
+\texttt{osm\_distancia\_vias\_m\_coverage}\\ 
+& Fracción de la celda con dato válido de OpenStreetMap. & fracción & numérica & Control (calidad) & 0 y 1\\
+\end{longtable}
+\endgroup
+
+\subsection{Exploración preliminar y procedimiento}
+
+\paragraph{Filas y columnas revisadas.} El archivo contiene \textbf{2\,160 filas y 15 columnas}.
+Corresponde a 30 celdas observadas durante 72 meses; cada celda tiene exactamente 72 registros
+y no hay registros duplicados de \texttt{cell\_id} con \texttt{anio\_mes}.
+
+\paragraph{Filas de ejemplo consultadas.} Se consultaron las cinco primeras filas del archivo,
+sin modificarlo ni guardar cambios; la tabla muestra seis de las columnas seleccionadas.
+
+\begin{center}
+\small
+\begin{tabular}{@{}llrrrr@{}}
+\toprule
+\texttt{cell\_id} & \texttt{anio\_mes} & Elevación (m) & Pendiente (°) & Dist. asent. (m) & Dist. vías (m)\\
+\midrule
+LJ500\_R006\_C075 & 2019-01 & 2\,966,80 & 32,63 & 4\,872,37 & 6\,600,30\\
+LJ500\_R011\_C068 & 2019-01 & 2\,659,94 & 30,27 & 5\,517,25 & 9\,709,48\\
+LJ500\_R012\_C055 & 2019-01 & 3\,052,69 & 28,60 & 3\,501,72 & 9\,900,10\\
+LJ500\_R020\_C061 & 2019-01 & 2\,202,12 & 31,11 & 648,49 & 9\,060,31\\
+LJ500\_R033\_C056 & 2019-01 & 2\,807,93 & 35,42 & 1\,969,79 & 2\,559,30\\
+\bottomrule
+\end{tabular}
+
+{\footnotesize Fuente: \texttt{equipo\_02\_relieve\_sur.csv}. Columnas de origen:
+\texttt{alos\_elevacion\_m\_mean}, \texttt{alos\_pendiente\_grados\_mean},
+\texttt{ghsl\_distancia\_asentamiento\_m\_mean} y \texttt{osm\_distancia\_vias\_m\_mean}.}
+\end{center}
+
+\paragraph{Hechos observados.} Son observaciones preliminares sobre el archivo, no resultados finales.
+\begin{enumerate}
+  \item \textbf{El relieve cubre un rango amplio.} La elevación media
+  (\texttt{alos\_elevacion\_m\_mean}) va de 1\,462,40\,m (celda \texttt{LJ500\_R063\_C060}) a
+  3\,238,79\,m (celda \texttt{LJ500\_R101\_C091}), y la pendiente media
+  (\texttt{alos\_pendiente\_grados\_mean}) va de 11,93° a 35,42°. En 12 de las 30 celdas la
+  pendiente media supera los 30°.
+  \item \textbf{Las variables de relieve no cambian en el tiempo.} En cada celda, la elevación,
+  la pendiente, \texttt{alos\_northness\_mean}, \texttt{alos\_eastness\_mean} y las dos
+  distancias tienen un único valor repetido en los 72 meses: el conteo de valores distintos por
+  \texttt{cell\_id} es 1 en todas esas columnas, de modo que hay 30 valores distintos y no 2\,160.
+  \item \textbf{Los valores faltantes se concentran en una sola celda.}
+  \texttt{ghsl\_distancia\_asentamiento\_m\_mean} y \texttt{osm\_distancia\_vias\_m\_mean} tienen
+  72 vacíos cada una (144 en total), todos de la celda \texttt{LJ500\_R101\_C091}, y coinciden
+  con \texttt{ghsl\_distancia\_asentamiento\_m\_coverage}\,=\,0 y
+  \texttt{osm\_distancia\_vias\_m\_coverage}\,=\,0 en esas 72 filas. Ninguna otra columna tiene
+  vacíos.
+  \item \textbf{La cobertura ALOS es casi completa, pero no siempre igual a 1.}
+  \texttt{alos\_elevacion\_m\_coverage} es menor que 1 en 17 de las 30 celdas, con un mínimo de
+  0,8908.
+  \item \textbf{Las distancias presentan mucha dispersión.}
+  \texttt{osm\_distancia\_vias\_m\_mean} va de 60,26 a 9\,900,10\,m, con una mediana de
+  1\,700,35\,m entre las 29 celdas con dato; 8 de esas 29 celdas están a menos de 500\,m de una vía.
+\end{enumerate}
+
+\paragraph{Control de período, zona, valores faltantes y disponibilidad.} Los controles
+siguientes ya se verificaron sobre el archivo original, sin modificarlo.
+
+\begin{center}
+\small
+\begin{tabular}{@{}L{4.8cm}L{9.4cm}@{}}
+\toprule
+\textbf{Control} & \textbf{Resultado}\\
+\midrule
+Período 2019--2024 & Cumple: \texttt{anio} va de 2019 a 2024, con 360 registros por año.\\
+Meses entre 1 y 12 & Cumple: \texttt{mes} va de 1 a 12 y hay 72 valores distintos de \texttt{anio\_mes}.\\
+Zona sur & Cumple: \texttt{centro\_y\_m}\,$<$\,9\,555\,250 en las 2\,160 filas.\\
+Registros duplicados & 0 duplicados de \texttt{cell\_id} con \texttt{anio\_mes}.\\
+Valores faltantes & 144, en dos columnas (distancia a asentamientos y a vías), todos de la celda \texttt{LJ500\_R101\_C091}.\\
+Rangos esperados del diccionario & Cumple: elevación $>0$, pendiente entre 0 y 90°, \texttt{northness} y \texttt{eastness} entre $-1$ y 1, distancias $\geq 0$ y coberturas entre 0 y 1.\\
+Columnas de cobertura & Se revisan antes de cada cálculo: \texttt{alos\_elevacion\_m\_coverage} (menor que 1 en 17 celdas) y las coberturas de GHSL y OSM (valor 0 solo en la celda \texttt{LJ500\_R101\_C091}).\\
+\bottomrule
+\end{tabular}
+\end{center}
+
+\paragraph{Tratamiento de las variables de relieve que se repiten cada mes.} Como las variables
+de relieve y de distancia son constantes por celda, repetirlas durante 72 meses no aporta 72
+observaciones independientes. Por ello, sobre una copia de trabajo se construirá una tabla con
+\textbf{una fila por celda} (30 filas), tomando el valor único de cada variable; los promedios y
+las comparaciones se calcularán sobre esas 30 celdas. Las 2\,160 filas se usarán solo para los
+controles de calidad. El CSV original no se modifica ni se vuelve a guardar.
+
+\paragraph{Procedimiento por objetivo (planificado).} Las operaciones siguientes todavía no se
+han ejecutado; hasta ahora solo se realizaron la exploración y los controles descritos arriba.
+No se incorporan datos de 2025, y este archivo no contiene ventanas móviles solapadas.
+Los objetivos son los del apartado de objetivos específicos, en el mismo orden.
+
+\begingroup
+\small
+\begin{longtable}{@{}L{1.9cm}L{3.2cm}L{3.6cm}L{2.9cm}L{2.2cm}@{}}
+\toprule
+\textbf{Objetivo} & \textbf{Entrada (columnas y filtros)} & \textbf{Operación} & \textbf{Criterio de calidad} & \textbf{Salida}\\
+\midrule
+\endfirsthead
+\toprule
+\textbf{Objetivo} & \textbf{Entrada (columnas y filtros)} & \textbf{Operación} & \textbf{Criterio de calidad} & \textbf{Salida}\\
+\midrule
+\endhead
+\bottomrule
+\endfoot
+\textbf{OE1.} Verificar estructura, período, zona y disponibilidad de datos &
+Todas las columnas del archivo; 2\,160 filas. &
+Contar filas y columnas; revisar los rangos de \texttt{anio} y \texttt{mes}; aplicar la regla de
+zona; contar valores faltantes y resumir las columnas \texttt{*\_coverage}. &
+Reportar cuántas filas y celdas entran a cada cálculo. &
+Tabla de control de calidad.\\
+\addlinespace
+\textbf{OE2.} Resumir el relieve por celda &
+\texttt{alos\_elevacion\_m\_mean},
+\texttt{alos\_pendiente\_grados\_mean},
+\texttt{alos\_northness\_mean} y 
+\texttt{alos\_eastness\_mean}; una fila por \texttt{cell\_id}
+(30 celdas). &
+Calcular media, mediana, mínimo, máximo y desviación estándar de cada variable sobre las 30
+celdas. &
+Reportar el número de celdas válidas por variable; considerar
+\texttt{alos\_elevacion\_m\_coverage}.\\ 
+&
+Tabla de resumen con unidades, zona y período.\\
+\addlinespace
+\textbf{OE3.} Comparar relieve y accesibilidad &
+Variables de relieve, \texttt{ghsl\_distancia\_asentamiento\_m\_mean} y \texttt{osm\_distancia\_vias\_m\_mean}; se excluye la celda con cobertura 0 (29 celdas válidas). 
+\\&
+Comparar grupos de celdas (por ejemplo, por rangos de elevación o de pendiente) y calcular la
+correlación de Spearman entre relieve y distancias. &
+Reportar el número de celdas usadas; una asociación estadística no demuestra causalidad. &
+Indicador comparativo y figura con título, unidades, zona y período.\\
+\end{longtable}
+\endgroup
+
+\paragraph{Limitaciones.} La muestra es de 30 celdas y no representa estimaciones oficiales para
+todo el cantón Loja. La celda \texttt{LJ500\_R101\_C091} no tiene dato de distancia a
+asentamientos ni a vías, por lo que las comparaciones con accesibilidad usan 29 celdas. Las
+variables de relieve y de distancia son estáticas, por lo que no permiten describir cambios en
+el tiempo.
+\subsection{Fuentes y referencias}
+Se documentan la base y el diccionario compartidos, y la guía del avance. Las citas del texto
+corresponden a estas referencias (formato APA~7).
+
+\begin{itemize}
+\item Universidad Nacional de Loja. (2026a). \emph{DICCIONARIO\_VARIABLES.csv} [Conjunto de datos]. Proyecto integrador, Programación y bases de datos, Carrera de Ingeniería Ambiental.
+  \item Universidad Nacional de Loja. (2026b). \emph{equipo\_02\_relieve\_sur.csv} [Conjunto de datos]. Proyecto integrador, Programación y bases de datos, Carrera de Ingeniería Ambiental.
+  \item Universidad Nacional de Loja. (2026c). \emph{Orientaciones para presentar el avance 2: Proyecto integrador, Programación y bases de datos}. Facultad Agropecuaria y de Recursos Naturales Renovables, Carrera de Ingeniería Ambiental.
+\begin{itemize}
+  \item 1.INIGEMM. Geomorfolog´ıa y relieve del Ecuador.https://www.inigemm.gob. ec. 2.Gobierno Aut´onomo Descentralizado Municipal del Cant´on Loja. Plan de Ordenamiento Territorial del Cant´on Loja (2021)https://www.loja.gob.ec/ plan-de-ordenamiento-territorial 3.Echeverr´ıa, J. (2018). Geomorfolog´ıa de la provincia de Loja. Repositorio Universidad Nacional de Loja.https://repositorio.unl.edu.ec.
+\end{document}
